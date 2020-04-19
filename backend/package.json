@@ -1,0 +1,10 @@
+{
+  "name": "animal-crossing-buddy",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.ts",
+  "author": "Rudolph Schmitz",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

@@ -2,6 +2,7 @@
   "name": "animal-crossing-buddy",
   "version": "0.1.0",
   "private": true,
+  "author": "Rudolph Schmitz",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
