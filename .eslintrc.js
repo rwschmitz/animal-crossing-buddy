@@ -32,7 +32,6 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier', 'react-hooks', 'react', 'standard'],
   rules: {
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
   },
