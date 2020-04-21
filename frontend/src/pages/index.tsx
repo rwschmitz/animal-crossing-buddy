@@ -1,5 +1,7 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import qs from 'qs';
 import styled from 'styled-components';
 
@@ -43,6 +45,19 @@ const _Form = styled.form`
 `;
 
 const Home = (): ReactElement => {
+  const firebaseConfig = {
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    databaseURL: process.env.databaseURL,
+    projectId: process.env.projectId,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messagingSenderId,
+    appId: process.env.appId,
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  firebase.auth();
+
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       const res = await axios.get('http://localhost:3001/cats');
@@ -51,9 +66,14 @@ const Home = (): ReactElement => {
     fetchData();
   }, []);
 
+  // add cat
   const [catId, setCatId] = useState('');
   const [catName, setCatName] = useState('');
   const [catAge, setCatAge] = useState('');
+
+  // sign up
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const addCat = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -68,55 +88,72 @@ const Home = (): ReactElement => {
     });
     console.log('post req -->', res);
   };
+
+  const addUser = (): void => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((): void => {
+        console.log('added user successfully');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('errorCode', errorCode);
+        console.log('errorMessage', errorMessage);
+      });
+  };
   return (
     <_Page>
       <_H1>Animal Crossing Buddy</_H1>
-      <_Form onSubmit={(event): Promise<void> => addCat(event)}>
-        <_Container>
-          <_Label id='catId' htmlFor='catId'>
-            id
-          </_Label>
-          <input name='catId' onChange={(event): void => setCatId(event.target.value)} value={catId} />
-        </_Container>
-        <_Container>
-          <_Label id='catName' htmlFor='catName'>
-            name
-          </_Label>
-          <input name='catName' onChange={(event): void => setCatName(event.target.value)} value={catName} />
-        </_Container>
-        <_Container>
-          <_Label id='catAge' htmlFor='catAge'>
-            age
-          </_Label>
-          <input name='catAge' onChange={(event): void => setCatAge(event.target.value)} value={catAge} />
-        </_Container>
-        <_Container>
-          <input type='submit' value='submit' />
-        </_Container>
-      </_Form>
+      <section>
+        <_H1>Add cat</_H1>
+        <_Form onSubmit={(event): Promise<void> => addCat(event)}>
+          <_Container>
+            <_Label id='catId' htmlFor='catId'>
+              id
+            </_Label>
+            <input name='catId' onChange={(event): void => setCatId(event.target.value)} value={catId} />
+          </_Container>
+          <_Container>
+            <_Label id='catName' htmlFor='catName'>
+              name
+            </_Label>
+            <input name='catName' onChange={(event): void => setCatName(event.target.value)} value={catName} />
+          </_Container>
+          <_Container>
+            <_Label id='catAge' htmlFor='catAge'>
+              age
+            </_Label>
+            <input name='catAge' onChange={(event): void => setCatAge(event.target.value)} value={catAge} />
+          </_Container>
+          <_Container>
+            <input type='submit' value='submit' />
+          </_Container>
+        </_Form>
+      </section>
+      <section>
+        <_H1>Sign up</_H1>
+        <_Form onSubmit={(): void => addUser()}>
+          <_Container>
+            <_Label id='email' htmlFor='email'>
+              email
+            </_Label>
+            <input name='email' onChange={(event): void => setEmail(event.target.value)} value={email} />
+          </_Container>
+          <_Container>
+            <_Label id='password' htmlFor='password'>
+              password
+            </_Label>
+            <input name='password' onChange={(event): void => setPassword(event.target.value)} value={password} />
+          </_Container>
+          <_Container>
+            <input type='submit' value='submit' />
+          </_Container>
+        </_Form>
+      </section>
     </_Page>
   );
 };
 
 export default Home;
-
-// <!-- The core Firebase JS SDK is always required and must be listed first -->
-// <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-
-// <!-- TODO: Add SDKs for Firebase products that you want to use
-//      https://firebase.google.com/docs/web/setup#available-libraries -->
-
-// <script>
-//   // Your web app's Firebase configuration
-//   var firebaseConfig = {
-//     apiKey: "AIzaSyB6-pTwl6aG3zKJQNulc9I6yQ2BI0l-Qow",
-//     authDomain: "animal-crossing-buddy.firebaseapp.com",
-//     databaseURL: "https://animal-crossing-buddy.firebaseio.com",
-//     projectId: "animal-crossing-buddy",
-//     storageBucket: "animal-crossing-buddy.appspot.com",
-//     messagingSenderId: "778830224520",
-//     appId: "1:778830224520:web:fda470a384678b1fe5133d"
-//   };
-//   // Initialize Firebase
-//   firebase.initializeApp(firebaseConfig);
-// </script>

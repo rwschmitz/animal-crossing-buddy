@@ -34,3 +34,4 @@ yarn-error.log*
 /backend/.env
 /frontend/.env
 /db/.env
+/frontend/next.config.js
