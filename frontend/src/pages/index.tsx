@@ -137,6 +137,26 @@ const Home = (): ReactElement => {
     <_Page>
       <_H1>Animal Crossing Buddy</_H1>
       <section>
+        <_H1>Sign up</_H1>
+        <_Form onSubmit={(event): void => addUser(event)}>
+          <_Container>
+            <_Label id='email' htmlFor='email'>
+              email
+            </_Label>
+            <input name='email' onChange={(event): void => setEmail(event.target.value)} value={email} />
+          </_Container>
+          <_Container>
+            <_Label id='password' htmlFor='password'>
+              password
+            </_Label>
+            <input name='password' onChange={(event): void => setPassword(event.target.value)} value={password} />
+          </_Container>
+          <_Container>
+            <input type='submit' value='submit' />
+          </_Container>
+        </_Form>
+      </section>
+      <section>
         <_H1>Add cat</_H1>
         <_Form onSubmit={(event): Promise<void> => addCat(event)}>
           <_Container>
@@ -156,26 +176,6 @@ const Home = (): ReactElement => {
               age
             </_Label>
             <input name='catAge' onChange={(event): void => setCatAge(event.target.value)} value={catAge} />
-          </_Container>
-          <_Container>
-            <input type='submit' value='submit' />
-          </_Container>
-        </_Form>
-      </section>
-      <section>
-        <_H1>Sign up</_H1>
-        <_Form onSubmit={(event): void => addUser(event)}>
-          <_Container>
-            <_Label id='email' htmlFor='email'>
-              email
-            </_Label>
-            <input name='email' onChange={(event): void => setEmail(event.target.value)} value={email} />
-          </_Container>
-          <_Container>
-            <_Label id='password' htmlFor='password'>
-              password
-            </_Label>
-            <input name='password' onChange={(event): void => setPassword(event.target.value)} value={password} />
           </_Container>
           <_Container>
             <input type='submit' value='submit' />
