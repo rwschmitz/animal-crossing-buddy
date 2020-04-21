@@ -1,6 +1,7 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
+import { User } from 'firebase';
 import 'firebase/auth';
 import qs from 'qs';
 import styled from 'styled-components';
@@ -25,7 +26,7 @@ const _Container = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-  max-width: 275px;
+  max-width: 300px;
   width: 100%;
   &:last-child {
     margin-top: 1rem;
@@ -55,7 +56,13 @@ const Home = (): ReactElement => {
     appId: process.env.appId,
   };
 
-  firebase.initializeApp(firebaseConfig);
+  // Is this really the best solution...?
+  // https://github.com/zeit/next.js/issues/1999
+  // Is there something with getInitialProps for nextjs to handle this...?
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
   firebase.auth();
 
   useEffect(() => {
@@ -89,7 +96,8 @@ const Home = (): ReactElement => {
     console.log('post req -->', res);
   };
 
-  const addUser = (): void => {
+  const addUser = (event: FormEvent): void => {
+    event.preventDefault();
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -101,6 +109,28 @@ const Home = (): ReactElement => {
         const errorMessage = error.message;
         console.log('errorCode', errorCode);
         console.log('errorMessage', errorMessage);
+      });
+  };
+
+  const getCurrentUser = (): void => {
+    firebase.auth().onAuthStateChanged((user: User | null) => {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log('no user is signed in');
+      }
+    });
+  };
+
+  const signOutUser = (): void => {
+    firebase
+      .auth()
+      .signOut()
+      .then((): void => {
+        console.log('signout successful');
+      })
+      .catch((error): void => {
+        console.log('signout failed with this error', error);
       });
   };
   return (
@@ -134,7 +164,7 @@ const Home = (): ReactElement => {
       </section>
       <section>
         <_H1>Sign up</_H1>
-        <_Form onSubmit={(): void => addUser()}>
+        <_Form onSubmit={(event): void => addUser(event)}>
           <_Container>
             <_Label id='email' htmlFor='email'>
               email
@@ -152,6 +182,8 @@ const Home = (): ReactElement => {
           </_Container>
         </_Form>
       </section>
+      <button onClick={getCurrentUser}>get current user</button>
+      <button onClick={signOutUser}>sign out</button>
     </_Page>
   );
 };
