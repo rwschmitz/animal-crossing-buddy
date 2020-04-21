@@ -99,3 +99,24 @@ const Home = (): ReactElement => {
 };
 
 export default Home;
+
+// <!-- The core Firebase JS SDK is always required and must be listed first -->
+// <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+
+// <!-- TODO: Add SDKs for Firebase products that you want to use
+//      https://firebase.google.com/docs/web/setup#available-libraries -->
+
+// <script>
+//   // Your web app's Firebase configuration
+//   var firebaseConfig = {
+//     apiKey: "AIzaSyB6-pTwl6aG3zKJQNulc9I6yQ2BI0l-Qow",
+//     authDomain: "animal-crossing-buddy.firebaseapp.com",
+//     databaseURL: "https://animal-crossing-buddy.firebaseio.com",
+//     projectId: "animal-crossing-buddy",
+//     storageBucket: "animal-crossing-buddy.appspot.com",
+//     messagingSenderId: "778830224520",
+//     appId: "1:778830224520:web:fda470a384678b1fe5133d"
+//   };
+//   // Initialize Firebase
+//   firebase.initializeApp(firebaseConfig);
+// </script>
