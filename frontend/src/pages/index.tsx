@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import qs from 'qs';
 import styled from 'styled-components';
+import useSwr from 'swr';
 
 const _Page = styled.section`
   background-color: black;
@@ -88,13 +89,19 @@ const Home = (): ReactElement => {
   }
   firebase.auth();
 
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const res = await axios.get('http://localhost:3001/cats');
-      console.log(res);
-    };
-    fetchData();
-  }, []);
+  const fetcher = (url: any): any => axios.get(url).then((res) => res.data);
+
+  const { data, error } = useSwr('/api/cats', fetcher);
+  console.log('data from useSwr', data);
+  console.log('error from useSwr', error);
+
+  // useEffect(() => {
+  //   const fetchData = async (): Promise<void> => {
+  //     const res = await axios.get('http://localhost:3001/cats');
+  //     console.log(res);
+  //   };
+  //   fetchData();
+  // }, []);
 
   const theCurrentUser = useAuth();
   console.log('the current user', theCurrentUser);

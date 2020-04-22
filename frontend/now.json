@@ -6,7 +6,10 @@
     "PROJECTID": "@projectid-production-w68r",
     "STORAGEBUCKET": "@storagebucket-production-dpxr",
     "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
-    "APPID": "@appid-production-erud"
+    "APPID": "@appid-production-erud",
+    "USER_NAME": "@user-name-production-c7c1",
+    "USER_PASS": "@user-pass-production-ej3u",
+    "DB_PATH": "@db-path-production-qoqw"
   },
   "build": {
     "env": {
@@ -16,7 +19,10 @@
       "PROJECTID": "@projectid-production-w68r",
       "STORAGEBUCKET": "@storagebucket-production-dpxr",
       "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
-      "APPID": "@appid-production-erud"
+      "APPID": "@appid-production-erud",
+      "USER_NAME": "@user-name-production-c7c1",
+      "USER_PASS": "@user-pass-production-ej3u",
+      "DB_PATH": "@db-path-production-qoqw"
     }
   }
 }
