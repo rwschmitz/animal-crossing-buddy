@@ -34,3 +34,5 @@ export default middleware;
 //   const data = await collection.find({}).toArray();
 //   return data;
 // };
+
+// commit to trigger nextjs build
