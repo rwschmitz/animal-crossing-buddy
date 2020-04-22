@@ -64,7 +64,7 @@ const fetcher = (url: any): any =>
     .catch((error) => console.log(error));
 
 export async function getServerSideProps(): Promise<any> {
-  const data = (await fetcher('/api/data')) ?? null;
+  const data = (await fetcher('/api/cats')) ?? null;
   return { props: { data } };
 }
 
