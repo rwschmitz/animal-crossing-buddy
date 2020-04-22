@@ -1,13 +1,13 @@
 {
   "build": {
     "env": {
-      "APIKEY": "@APIKEY",
-      "AUTHDOMAIN": "@AUTHDOMAIN",
-      "DATABASEURL": "@DATABASEURL",
-      "PROJECTID": "@PROJECTID",
-      "STORAGEBUCKET": "@STORAGEBUCKET",
-      "MESSAGINGSENDERID": "@MESSAGINGSENDERID",
-      "APPID": "@APPID"
+      "APIKEY": "@apikey-production-wgjz",
+      "AUTHDOMAIN": "@authdomain-production-lnjd",
+      "DATABASEURL": "@databaseurl-production-yyj9",
+      "PROJECTID": "@projectid-production-9yw4",
+      "STORAGEBUCKET": "@storagebucket-production-dtu4",
+      "MESSAGINGSENDERID": "@messagingsenderid-production-x6ve",
+      "APPID": "@appid-production-ybtq"
     }
   }
 }
