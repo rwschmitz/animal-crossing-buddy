@@ -94,6 +94,7 @@ const Home = (): ReactElement => {
       .get(url)
       .then((res) => res.data)
       .catch((error) => console.log(error));
+
   const { data, error } = useSwr('/api/cats', fetcher);
   console.log('data from useSwr', data);
   console.log('error from useSwr', error);
@@ -107,7 +108,7 @@ const Home = (): ReactElement => {
   // }, []);
 
   const theCurrentUser = useAuth();
-  console.log('the current user', theCurrentUser);
+  // console.log('the current user', theCurrentUser);
 
   // add cat
   const [catId, setCatId] = useState('');
