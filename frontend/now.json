@@ -27,8 +27,8 @@
   },
   "routes": [
     {
-      "src": "/cats",
-      "dest": "/cats.html"
+      "src": "/api",
+      "dest": "/cats.ts"
     }
   ]
 }
