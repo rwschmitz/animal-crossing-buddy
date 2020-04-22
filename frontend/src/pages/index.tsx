@@ -96,8 +96,8 @@ const Home = (): ReactElement => {
       .catch((error) => console.log(error));
 
   const { data, error } = useSwr('/api/cats', fetcher);
-  console.log('data from useSwr', data);
-  console.log('error from useSwr', error);
+  // console.log('data from useSwr', data);
+  // console.log('error from useSwr', error);
 
   // useEffect(() => {
   //   const fetchData = async (): Promise<void> => {
@@ -188,81 +188,91 @@ const Home = (): ReactElement => {
   };
   return (
     <_Page>
-      <_H1>Animal Crossing Buddy</_H1>
-      <section>
-        {theCurrentUser ? <_SignedInText>signed in!</_SignedInText> : <_SignedOutText>signed out!</_SignedOutText>}
-      </section>
-      <section>
-        <_H1>Sign up</_H1>
-        <_Form onSubmit={(event): void => addUser(event)}>
-          <_Container>
-            <_Label id='email' htmlFor='email'>
-              email
-            </_Label>
-            <input name='email' onChange={(event): void => setEmail(event.target.value)} value={email} />
-          </_Container>
-          <_Container>
-            <_Label id='password' htmlFor='password'>
-              password
-            </_Label>
-            <input name='password' onChange={(event): void => setPassword(event.target.value)} value={password} />
-          </_Container>
-          <_Container>
-            <input type='submit' value='submit' />
-          </_Container>
-        </_Form>
-      </section>
-      <section>
-        <_H1>Email sign in</_H1>
-        <_Form onSubmit={(event): void => signInUser(event)}>
-          <_Container>
-            <_Label id='userEmail' htmlFor='userEmail'>
-              email
-            </_Label>
-            <input name='userEmail' onChange={(event): void => setUserEmail(event.target.value)} value={userEmail} />
-          </_Container>
-          <_Container>
-            <_Label id='userPassword' htmlFor='userPassword'>
-              password
-            </_Label>
-            <input
-              name='userPassword'
-              onChange={(event): void => setUserPassword(event.target.value)}
-              value={userPassword}
-            />
-          </_Container>
-          <_Container>
-            <input type='submit' value='submit' />
-          </_Container>
-        </_Form>
-      </section>
-      <section>
-        <_H1>Add cat</_H1>
-        <_Form onSubmit={(event): Promise<void> => addCat(event)}>
-          <_Container>
-            <_Label id='catId' htmlFor='catId'>
-              id
-            </_Label>
-            <input name='catId' onChange={(event): void => setCatId(event.target.value)} value={catId} />
-          </_Container>
-          <_Container>
-            <_Label id='catName' htmlFor='catName'>
-              name
-            </_Label>
-            <input name='catName' onChange={(event): void => setCatName(event.target.value)} value={catName} />
-          </_Container>
-          <_Container>
-            <_Label id='catAge' htmlFor='catAge'>
-              age
-            </_Label>
-            <input name='catAge' onChange={(event): void => setCatAge(event.target.value)} value={catAge} />
-          </_Container>
-          <_Container>
-            <input type='submit' value='submit' />
-          </_Container>
-        </_Form>
-      </section>
-      <button onClick={signOutUser}>sign out</button>
+      {error && <div>error</div>}
+      {!data && <div>loading...</div>}
+      {data && (
+        <>
+          <_H1>Animal Crossing Buddy</_H1>
+          <section>
+            {theCurrentUser ? <_SignedInText>signed in!</_SignedInText> : <_SignedOutText>signed out!</_SignedOutText>}
+          </section>
+          <section>
+            <_H1>Sign up</_H1>
+            <_Form onSubmit={(event): void => addUser(event)}>
+              <_Container>
+                <_Label id='email' htmlFor='email'>
+                  email
+                </_Label>
+                <input name='email' onChange={(event): void => setEmail(event.target.value)} value={email} />
+              </_Container>
+              <_Container>
+                <_Label id='password' htmlFor='password'>
+                  password
+                </_Label>
+                <input name='password' onChange={(event): void => setPassword(event.target.value)} value={password} />
+              </_Container>
+              <_Container>
+                <input type='submit' value='submit' />
+              </_Container>
+            </_Form>
+          </section>
+          <section>
+            <_H1>Email sign in</_H1>
+            <_Form onSubmit={(event): void => signInUser(event)}>
+              <_Container>
+                <_Label id='userEmail' htmlFor='userEmail'>
+                  email
+                </_Label>
+                <input
+                  name='userEmail'
+                  onChange={(event): void => setUserEmail(event.target.value)}
+                  value={userEmail}
+                />
+              </_Container>
+              <_Container>
+                <_Label id='userPassword' htmlFor='userPassword'>
+                  password
+                </_Label>
+                <input
+                  name='userPassword'
+                  onChange={(event): void => setUserPassword(event.target.value)}
+                  value={userPassword}
+                />
+              </_Container>
+              <_Container>
+                <input type='submit' value='submit' />
+              </_Container>
+            </_Form>
+          </section>
+          <section>
+            <_H1>Add cat</_H1>
+            <_Form onSubmit={(event): Promise<void> => addCat(event)}>
+              <_Container>
+                <_Label id='catId' htmlFor='catId'>
+                  id
+                </_Label>
+                <input name='catId' onChange={(event): void => setCatId(event.target.value)} value={catId} />
+              </_Container>
+              <_Container>
+                <_Label id='catName' htmlFor='catName'>
+                  name
+                </_Label>
+                <input name='catName' onChange={(event): void => setCatName(event.target.value)} value={catName} />
+              </_Container>
+              <_Container>
+                <_Label id='catAge' htmlFor='catAge'>
+                  age
+                </_Label>
+                <input name='catAge' onChange={(event): void => setCatAge(event.target.value)} value={catAge} />
+              </_Container>
+              <_Container>
+                <input type='submit' value='submit' />
+              </_Container>
+            </_Form>
+          </section>
+          <button onClick={signOutUser}>sign out</button>
+        </>
+      )}
     </_Page>
   );
 };
