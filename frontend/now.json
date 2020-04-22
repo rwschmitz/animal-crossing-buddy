@@ -1,22 +1,22 @@
 {
   "env": {
-    "APIKEY": "@apikey-production-wgjz",
-    "AUTHDOMAIN": "@authdomain-production-lnjd",
-    "DATABASEURL": "@databaseurl-production-yyj9",
-    "PROJECTID": "@projectid-production-9yw4",
-    "STORAGEBUCKET": "@storagebucket-production-dtu4",
-    "MESSAGINGSENDERID": "@messagingsenderid-production-x6ve",
-    "APPID": "@appid-production-ybtq"
+    "APIKEY": "@apikey-production-f4k1",
+    "AUTHDOMAIN": "@authdomain-production-sytu",
+    "DATABASEURL": "@databaseurl-production-zkua",
+    "PROJECTID": "@projectid-production-w68r",
+    "STORAGEBUCKET": "@storagebucket-production-dpxr",
+    "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
+    "APPID": "@appid-production-erud"
   },
   "build": {
     "env": {
-      "APIKEY": "@apikey-production-wgjz",
-      "AUTHDOMAIN": "@authdomain-production-lnjd",
-      "DATABASEURL": "@databaseurl-production-yyj9",
-      "PROJECTID": "@projectid-production-9yw4",
-      "STORAGEBUCKET": "@storagebucket-production-dtu4",
-      "MESSAGINGSENDERID": "@messagingsenderid-production-x6ve",
-      "APPID": "@appid-production-ybtq"
+      "APIKEY": "@apikey-production-f4k1",
+      "AUTHDOMAIN": "@authdomain-production-sytu",
+      "DATABASEURL": "@databaseurl-production-zkua",
+      "PROJECTID": "@projectid-production-w68r",
+      "STORAGEBUCKET": "@storagebucket-production-dpxr",
+      "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
+      "APPID": "@appid-production-erud"
     }
   }
 }
