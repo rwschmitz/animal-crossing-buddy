@@ -24,5 +24,11 @@
       "USER_PASS": "@user-pass-production-ej3u",
       "DB_PATH": "@db-path-production-qoqw"
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/cats",
+      "dest": "/cats.html"
+    }
+  ]
 }

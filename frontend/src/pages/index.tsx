@@ -89,6 +89,18 @@ const Home = (): ReactElement => {
   }
   firebase.auth();
 
+  // const origin = (req: any): string => {
+  //   if (!req) {
+  //     return '';
+  //   }
+
+  //   if (req.headers['x-now-deployment-url']) {
+  //     return `https://${req.headers['x-now-deployment-url']}`;
+  //   }
+
+  //   return `http://${req.headers.host}`
+  // }
+
   const fetcher = (url: any): any =>
     axios
       .get(url)
@@ -96,8 +108,6 @@ const Home = (): ReactElement => {
       .catch((error) => console.log(error));
 
   const { data, error } = useSwr('/api/cats', fetcher);
-  // console.log('data from useSwr', data);
-  // console.log('error from useSwr', error);
 
   // useEffect(() => {
   //   const fetchData = async (): Promise<void> => {
