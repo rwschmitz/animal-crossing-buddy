@@ -9,20 +9,21 @@
     "start": "next start"
   },
   "dependencies": {
-    "axios": "^0.19.2",
-    "firebase": "^7.14.1",
+    "axios": "0.19.2",
+    "firebase": "7.14.1",
     "next": "9.3.5",
-    "normalize.css": "^8.0.1",
-    "qs": "^6.9.3",
+    "normalize.css": "8.0.1",
+    "qs": "6.9.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "styled-components": "5.1.0"
   },
   "devDependencies": {
     "@types/node": "13.7.4",
-    "@types/qs": "^6.9.1",
+    "@types/qs": "6.9.1",
     "@types/react": "16.9.22",
     "@types/styled-components": "5.1.0",
-    "babel-plugin-styled-components": "^1.10.7"
+    "babel-plugin-styled-components": "1.10.7",
+    "typescript": "3.8.2"
   }
 }
