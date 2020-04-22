@@ -1,7 +1,7 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
-import { User } from 'firebase';
+// import { User } from 'firebase';
 import 'firebase/auth';
 import qs from 'qs';
 import styled from 'styled-components';
@@ -18,7 +18,10 @@ const _Page = styled.section`
 
 const _H1 = styled.h1`
   font-weight: 900;
-  margin: 0;
+  margin-bottom: 2rem;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
 `;
 
 const _Container = styled.div`
@@ -44,6 +47,26 @@ const _Form = styled.form`
   margin-top: 2rem;
   max-width: 500px;
 `;
+
+const _SignedInText = styled.div`
+  color: lightgreen;
+`;
+
+const _SignedOutText = styled.div`
+  color: red;
+`;
+
+const useAuth = (): any => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect((): void => {
+    firebase.auth().onAuthStateChanged((user: any) => {
+      setCurrentUser(user);
+    });
+  }, [currentUser]);
+
+  return currentUser;
+};
 
 const Home = (): ReactElement => {
   const firebaseConfig = {
@@ -73,6 +96,9 @@ const Home = (): ReactElement => {
     fetchData();
   }, []);
 
+  const theCurrentUser = useAuth();
+  console.log('the current user', theCurrentUser);
+
   // add cat
   const [catId, setCatId] = useState('');
   const [catName, setCatName] = useState('');
@@ -81,6 +107,10 @@ const Home = (): ReactElement => {
   // sign up
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // sign in
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
 
   const addCat = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -96,6 +126,8 @@ const Home = (): ReactElement => {
     console.log('post req -->', res);
   };
 
+  // should i clear un/pw when the sign-in or sign-up errors out?
+
   const addUser = (event: FormEvent): void => {
     event.preventDefault();
     firebase
@@ -103,6 +135,8 @@ const Home = (): ReactElement => {
       .createUserWithEmailAndPassword(email, password)
       .then((): void => {
         console.log('added user successfully');
+        setEmail('');
+        setPassword('');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -110,16 +144,6 @@ const Home = (): ReactElement => {
         console.log('errorCode', errorCode);
         console.log('errorMessage', errorMessage);
       });
-  };
-
-  const getCurrentUser = (): void => {
-    firebase.auth().onAuthStateChanged((user: User | null) => {
-      if (user) {
-        console.log(user);
-      } else {
-        console.log('no user is signed in');
-      }
-    });
   };
 
   const signOutUser = (): void => {
@@ -133,9 +157,30 @@ const Home = (): ReactElement => {
         console.log('signout failed with this error', error);
       });
   };
+
+  const signInUser = (event: FormEvent): void => {
+    event.preventDefault();
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(userEmail, userPassword)
+      .then((): void => {
+        console.log('user signed in succesfully');
+        setUserEmail('');
+        setUserPassword('');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log('errorCode', errorCode);
+        console.log('errorMessage', errorMessage);
+      });
+  };
   return (
     <_Page>
       <_H1>Animal Crossing Buddy</_H1>
+      <section>
+        {theCurrentUser ? <_SignedInText>signed in!</_SignedInText> : <_SignedOutText>signed out!</_SignedOutText>}
+      </section>
       <section>
         <_H1>Sign up</_H1>
         <_Form onSubmit={(event): void => addUser(event)}>
@@ -150,6 +195,30 @@ const Home = (): ReactElement => {
               password
             </_Label>
             <input name='password' onChange={(event): void => setPassword(event.target.value)} value={password} />
+          </_Container>
+          <_Container>
+            <input type='submit' value='submit' />
+          </_Container>
+        </_Form>
+      </section>
+      <section>
+        <_H1>Email sign in</_H1>
+        <_Form onSubmit={(event): void => signInUser(event)}>
+          <_Container>
+            <_Label id='userEmail' htmlFor='userEmail'>
+              email
+            </_Label>
+            <input name='userEmail' onChange={(event): void => setUserEmail(event.target.value)} value={userEmail} />
+          </_Container>
+          <_Container>
+            <_Label id='userPassword' htmlFor='userPassword'>
+              password
+            </_Label>
+            <input
+              name='userPassword'
+              onChange={(event): void => setUserPassword(event.target.value)}
+              value={userPassword}
+            />
           </_Container>
           <_Container>
             <input type='submit' value='submit' />
@@ -182,7 +251,6 @@ const Home = (): ReactElement => {
           </_Container>
         </_Form>
       </section>
-      <button onClick={getCurrentUser}>get current user</button>
       <button onClick={signOutUser}>sign out</button>
     </_Page>
   );
