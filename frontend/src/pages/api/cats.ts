@@ -28,7 +28,6 @@ const getCollection = async (): Promise<any> => {
 
 export default async (_: any, res: any): Promise<void> => {
   const response = await getCollection();
-  console.log('response', response);
   res.status(200).json(response);
   res.end();
 };
