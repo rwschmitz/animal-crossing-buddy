@@ -57,17 +57,6 @@ const _SignedOutText = styled.div`
   color: red;
 `;
 
-const fetcher = (url: any): any =>
-  axios
-    .get(url, { proxy: { host: '127.0.0.1', port: 3000 } })
-    .then((res) => res.data)
-    .catch((error) => console.log(error));
-
-export async function getServerSideProps(): Promise<any> {
-  const data = (await fetcher('/api/cats')) ?? null;
-  return { props: { data } };
-}
-
 const useAuth = (): any => {
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -80,8 +69,7 @@ const useAuth = (): any => {
   return currentUser;
 };
 
-const Home = (props: any): ReactElement => {
-  console.log('props', props);
+const Home = (): ReactElement => {
   const firebaseConfig = {
     apiKey: process.env.apiKey,
     authDomain: process.env.authDomain,
@@ -101,8 +89,12 @@ const Home = (props: any): ReactElement => {
   }
   firebase.auth();
 
-  const initialData = props.data;
-  const { data, error } = useSwr('/api/cats', fetcher, { initialData });
+  const fetcher = (url: any): any =>
+    axios
+      .get(url)
+      .then((res) => res.data)
+      .catch((error) => console.log(error));
+  const { data, error } = useSwr('/api/cats', fetcher);
   console.log('data from useSwr', data);
   console.log('error from useSwr', error);
 
