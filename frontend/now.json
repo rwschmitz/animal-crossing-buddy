@@ -1,13 +1,4 @@
 {
-  "env": {
-    "APIKEY": "@APIKEY",
-    "AUTHDOMAIN": "@AUTHDOMAIN",
-    "DATABASEURL": "@DATABASEURL",
-    "PROJECTID": "@PROJECTID",
-    "STORAGEBUCKET": "@STORAGEBUCKET",
-    "MESSAGINGSENDERID": "@MESSAGINGSENDERID",
-    "APPID": "@APPID"
-  },
   "build": {
     "env": {
       "APIKEY": "@apikey-production-ujbd",
