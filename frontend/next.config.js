@@ -11,5 +11,4 @@ module.exports = {
     USER_PASS: process.env.USER_PASS,
     DB_PATH: process.env.DB_PATH,
   },
-  target: 'serverless',
 };
