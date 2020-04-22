@@ -5,6 +5,8 @@ const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@${p
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 export default (_: any, res: any): void => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
   client.connect((err): void => {
     if (err) {
       console.log(err);
