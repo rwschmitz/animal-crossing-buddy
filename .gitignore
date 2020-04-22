@@ -33,4 +33,5 @@ yarn-error.log*
 .env.production.local
 /backend/.env
 /frontend/.env
+/frontend/.env.build
 /db/.env

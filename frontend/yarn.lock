@@ -1194,6 +1194,13 @@
     lodash.camelcase "^4.3.0"
     protobufjs "^6.8.6"
 
+"@now/node@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@now/node/-/node-1.5.1.tgz#e0d559ea5d1efaa5cc8a7c35208aa6ad01634ab2"
+  integrity sha512-2nXhdqo4aNShHuTwbdQmZQX4jYXAoI85+FTPStD5DZVC3kbSS8m5RDxJu7Op7ffBPwIu8Nmp6ukjXct3Abad7g==
+  dependencies:
+    "@types/node" "*"
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"

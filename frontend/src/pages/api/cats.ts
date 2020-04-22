@@ -1,4 +1,5 @@
 import mongodb from 'mongodb';
+import { NowResponse } from '@now/node';
 
 const { MongoClient } = mongodb;
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@${process.env.DB_PATH}`;
@@ -26,7 +27,7 @@ const getCollection = async (): Promise<any> => {
   return data;
 };
 
-export default async (_: any, res: any): Promise<void> => {
+export default async (_: any, res: NowResponse): Promise<void> => {
   const response = await getCollection();
   res.status(200).json(response);
   res.end();
