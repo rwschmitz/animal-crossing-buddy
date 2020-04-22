@@ -1,7 +1,6 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
-// import { User } from 'firebase';
 import 'firebase/auth';
 import qs from 'qs';
 import styled from 'styled-components';
