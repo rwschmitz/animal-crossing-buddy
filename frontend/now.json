@@ -7,9 +7,9 @@
     "STORAGEBUCKET": "@storagebucket-production-dpxr",
     "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
     "APPID": "@appid-production-erud",
-    "USER_NAME": "@user-name-production-5t43",
-    "USER_PASS": "@user-pass-production-2yhc",
-    "DB_PATH": "@db-path-production-hpir"
+    "USER_NAME": "@user-name-production-3gmx",
+    "USER_PASS": "@user-pass-production-zcjr",
+    "DB_PATH": "@db-path-production-olqu"
   },
   "build": {
     "env": {
@@ -20,9 +20,9 @@
       "STORAGEBUCKET": "@storagebucket-production-dpxr",
       "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
       "APPID": "@appid-production-erud",
-      "USER_NAME": "@user-name-production-5t43",
-      "USER_PASS": "@user-pass-production-2yhc",
-      "DB_PATH": "@db-path-production-hpir"
+      "USER_NAME": "@user-name-production-3gmx",
+      "USER_PASS": "@user-pass-production-zcjr",
+      "DB_PATH": "@db-path-production-olqu"
     }
   }
 }
