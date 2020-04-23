@@ -6,11 +6,12 @@
 //   });
 //   res.end();
 // };
+import { testConfig } from './testconfig';
 import mongodb from 'mongodb';
 import { NowResponse } from '@now/node';
 
 const { MongoClient } = mongodb;
-const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@${process.env.DB_PATH}`;
+const uri = `mongodb+srv://${testConfig.USER_NAME}:${testConfig.USER_PASS}@${testConfig.DB_PATH}`;
 
 const createMongoClient = (): mongodb.MongoClient => {
   let client;
