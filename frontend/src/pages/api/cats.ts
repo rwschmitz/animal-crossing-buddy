@@ -1,5 +1,5 @@
 import mongodb from 'mongodb';
-import { NowResponse } from '@now/node';
+import { NowRequest, NowResponse } from '@now/node';
 
 const { MongoClient } = mongodb;
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@${process.env.DB_PATH}`;
@@ -20,14 +20,14 @@ const connectToMongoClient = async (): Promise<mongodb.MongoClient> => {
   return client;
 };
 
-const getCollection = async (): Promise<any> => {
+const getCollection = async (): Promise<Array<{}>> => {
   const client = await connectToMongoClient();
   const collection = client.db('animals').collection('cats');
   const data = await collection.find({}).toArray();
   return data;
 };
 
-export default async (_: any, res: NowResponse): Promise<void> => {
+export default async (_: NowRequest, res: NowResponse): Promise<void> => {
   const response = await getCollection();
   res.status(200).json(response);
   res.end();
