@@ -36,5 +36,3 @@ yarn-error.log*
 /frontend/.env.build
 /db/.env
 
-#test
-/frontend/src/pages/api/testconfig.ts
