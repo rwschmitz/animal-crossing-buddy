@@ -99,15 +99,6 @@ const Home = (): ReactElement => {
 
   const { data, error } = useSwr('/api/cats', fetcher);
 
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      const res = await axios.get('/api/cats');
-      const { data } = res;
-      console.log(data);
-    };
-    fetchData();
-  }, []);
-
   const theCurrentUser = useAuth();
   // console.log('the current user', theCurrentUser);
 
