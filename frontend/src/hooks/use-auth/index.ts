@@ -6,6 +6,7 @@ interface UseAuthReturnValues {
   handleEmail: (value: string) => void;
   handlePassword: (value: string) => void;
   handleSignIn: (event: FormEvent) => void;
+  handleSignOut: () => void;
   handleSignUp: (event: FormEvent) => void;
   email: string;
   password: string;
@@ -62,10 +63,23 @@ const useAuth = (): UseAuthReturnValues => {
       });
   };
 
+  const signOutUser = (): void => {
+    firebase
+      .auth()
+      .signOut()
+      .then((): void => {
+        console.log('signout successful');
+      })
+      .catch((error): void => {
+        console.log('signout failed with this error', error);
+      });
+  };
+
   return {
     handleEmail: (value): void => setEmail(value),
     handlePassword: (value): void => setPassword(value),
     handleSignIn: (event): void => signInAccount(event),
+    handleSignOut: (): void => signOutUser(),
     handleSignUp: (event): void => createAccount(event),
     email,
     password,
