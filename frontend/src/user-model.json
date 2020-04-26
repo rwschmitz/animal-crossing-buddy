@@ -1,0 +1,23 @@
+{
+  "user": {
+    "villagerName": "",
+    "lastLoggedIn": "",
+    "island": {
+      "name": "",
+      "nativeFruit": "",
+      "hotItem": {
+        "hotItemName": "",
+        "hotItemLastUpdated": ""
+      },
+      "turnips": {
+        "sellPrice": "",
+        "sellPriceLastUpdated": "",
+        "sellerRating": ""
+      }
+    },
+    "media": {
+      "images": "",
+      "videos": ""
+    }
+  }
+}
