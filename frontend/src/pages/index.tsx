@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react';
 import axios from 'axios';
 import useSwr from 'swr';
-import { useAuth } from '../hooks';
+import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
 import { _Frame, _H1 } from '../ui';
 
 const Home = (): ReactElement => {
   const { handleSignOut } = useAuth();
+  const currentUser = useCurrentUser();
 
   const fetcher = (url: string): Promise<void> =>
     axios
@@ -23,9 +24,18 @@ const Home = (): ReactElement => {
       {data && (
         <>
           <_H1>Animal Crossing Buddy</_H1>
-          <AuthForm formTitle='Sign up' submitButtonText='Sign up!' type='sign-up' />
-          <AuthForm formTitle='Sign in' submitButtonText='Sign in!' />
-          <button onClick={handleSignOut}>sign out</button>
+          {currentUser && (
+            <>
+              <div>welcome back!</div>
+              <button onClick={handleSignOut}>sign out</button>
+            </>
+          )}
+          {!currentUser && (
+            <>
+              <AuthForm formTitle='Sign up' submitButtonText='Sign up!' type='sign-up' />
+              <AuthForm formTitle='Sign in' submitButtonText='Sign in!' />
+            </>
+          )}
         </>
       )}
     </_Frame>
