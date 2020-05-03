@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState, FormEvent } from 'react';
 import axios from 'axios';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
@@ -22,10 +22,10 @@ const Home = (): ReactElement => {
       .getRedirectResult()
       .then((result) => {
         if (result.credential) {
-          console.log('result creds...');
+          // console.log('result creds...');
         }
         setIsLoading(false);
-        console.log('handle redirect ran...');
+        // console.log('handle redirect ran...');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -64,14 +64,15 @@ const Home = (): ReactElement => {
       .then((res) => res.data)
       .catch((error) => console.log(error));
 
-  const { data, error } = useSwr(currentUser?.uid ? `/api/users?uid=${currentUser.uid}` : null, fetcher);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const { data, error } = useSwr(currentUser?.uid ? `/api/users/users?uid=${currentUser.uid}` : null, fetcher);
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   useEffect(() => {
     const postData = async (): Promise<void> => {
-      await axios.post('/api/users', {
+      await axios.post('/api/users/users', {
         data: {
           uid: currentUser?.uid,
         },
@@ -82,6 +83,24 @@ const Home = (): ReactElement => {
     }
   }, [currentUser]);
 
+  const [villagerName, setVillagerName] = useState('');
+  const [islandName, setIslandName] = useState('');
+  const [islandNativeFruit, setIslandNativeFruit] = useState('');
+
+  const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
+    event.preventDefault();
+    await axios.post('/api/users/island', {
+      data: {
+        villagerName,
+        islandName,
+        islandNativeFruit,
+      },
+    });
+    console.log(villagerName);
+    console.log(islandName);
+    console.log(islandNativeFruit);
+  };
+
   return (
     <_Frame>
       {error && <div>error</div>}
@@ -91,7 +110,48 @@ const Home = (): ReactElement => {
           <_H1>Animal Crossing Buddy</_H1>
           {currentUser && (
             <>
-              <div>welcome back!</div>
+              <div>welcome back {currentUser.email}!</div>
+
+              <form
+                onSubmit={(event): Promise<void> => handleUpdateIslandInformation(event)}
+                style={{ border: '2px dashed white', marginBottom: '2rem', marginTop: '2rem', maxWidth: '500px' }}
+              >
+                <div style={{ width: '100%' }}>
+                  <label id='villager-name' htmlFor='villager-name'>
+                    villager name
+                  </label>
+                  <input
+                    name='villager-name'
+                    onChange={(event): void => setVillagerName(event.target.value)}
+                    value={villagerName}
+                  />
+                </div>
+
+                <div style={{ width: '100%' }}>
+                  <label id='island-name' htmlFor='island-name'>
+                    island name
+                  </label>
+                  <input
+                    name='island-name'
+                    onChange={(event): void => setIslandName(event.target.value)}
+                    value={islandName}
+                  />
+                </div>
+
+                <div style={{ width: '100%' }}>
+                  <label id='island-native-fruit' htmlFor='island-native-fruit'>
+                    island native fruit
+                  </label>
+                  <input
+                    name='island-native-fruit'
+                    onChange={(event): void => setIslandNativeFruit(event.target.value)}
+                    value={islandNativeFruit}
+                  />
+                </div>
+
+                <input type='submit' value='update island info!' />
+              </form>
+
               <button onClick={handleSignOut}>sign out</button>
             </>
           )}
