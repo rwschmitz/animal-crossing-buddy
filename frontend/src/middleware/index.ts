@@ -88,7 +88,14 @@ const findDocumentAndUpdateDocument = async ({
         [`${queryField}`]: queryValue,
       },
       {
-        $set: { testNumber: '002' },
+        $set: {
+          testNumber: '002',
+          parentKey: {
+            name: 'rudy',
+            age: 31,
+            cool: true,
+          },
+        },
       },
       {
         upsert: true,
