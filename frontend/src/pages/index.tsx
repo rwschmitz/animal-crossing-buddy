@@ -64,7 +64,21 @@ const Home = (): ReactElement => {
       .then((res) => res.data)
       .catch((error) => console.log(error));
 
-  const { data, error } = useSwr('/api/cats', fetcher);
+  const { data, error } = useSwr(currentUser?.uid ? `/api/users?uid=${currentUser.uid}` : null, fetcher);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  useEffect(() => {
+    const postData = async (): Promise<void> => {
+      await axios.post('/api/users', {
+        data: {
+          uid: currentUser?.uid,
+        },
+      });
+    };
+    postData();
+  }, [currentUser]);
 
   return (
     <_Frame>

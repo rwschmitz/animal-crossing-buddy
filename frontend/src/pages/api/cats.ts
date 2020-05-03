@@ -1,34 +1,13 @@
-import mongodb from 'mongodb';
 import { NowRequest, NowResponse } from '@now/node';
-
-const { MongoClient } = mongodb;
-const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.USER_PASS}@${process.env.DB_PATH}`;
-
-const createMongoClient = (): mongodb.MongoClient => {
-  let client;
-  if (!client) {
-    client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-  }
-  return client;
-};
-
-const connectToMongoClient = async (): Promise<mongodb.MongoClient> => {
-  const client = createMongoClient();
-  if (!client.isConnected()) {
-    await client.connect();
-  }
-  return client;
-};
-
-const getCollection = async (): Promise<Array<{}>> => {
-  const client = await connectToMongoClient();
-  const collection = client.db('animals').collection('cats');
-  const data = await collection.find({}).toArray();
-  return data;
-};
+import { getDocumentsByQueryFromCollection } from '../../middleware';
 
 export default async (_: NowRequest, res: NowResponse): Promise<void> => {
-  const response = await getCollection();
+  const response = await getDocumentsByQueryFromCollection({
+    dbName: 'animals',
+    collectionName: 'cats',
+    queryField: 'name',
+    queryValue: 'peekles',
+  });
   res.status(200).json(response);
   res.end();
 };
