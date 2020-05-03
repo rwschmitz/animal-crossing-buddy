@@ -73,4 +73,33 @@ const updateDocument = async ({
     .updateOne({ [`${queryField}`]: queryValue }, { $set: { [`${queryField}`]: queryValue } }, { upsert: true });
 };
 
-export { getAllDocumentsFromCollection, getDocumentsByQueryFromCollection, addOneDocumentToCollection, updateDocument };
+const findDocumentAndUpdateDocument = async ({
+  dbName,
+  collectionName,
+  queryField,
+  queryValue,
+}: any): Promise<void> => {
+  const client = await connectToMongoClient();
+  client
+    .db(dbName)
+    .collection(collectionName)
+    .findOneAndUpdate(
+      {
+        [`${queryField}`]: queryValue,
+      },
+      {
+        $set: { testNumber: '002' },
+      },
+      {
+        upsert: true,
+      }
+    );
+};
+
+export {
+  getAllDocumentsFromCollection,
+  getDocumentsByQueryFromCollection,
+  addOneDocumentToCollection,
+  updateDocument,
+  findDocumentAndUpdateDocument,
+};

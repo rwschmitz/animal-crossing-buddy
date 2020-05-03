@@ -94,6 +94,7 @@ const Home = (): ReactElement => {
         villagerName,
         islandName,
         islandNativeFruit,
+        uid: currentUser?.uid,
       },
     });
     console.log(villagerName);
