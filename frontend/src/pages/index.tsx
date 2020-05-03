@@ -77,14 +77,16 @@ const Home = (): ReactElement => {
         },
       });
     };
-    postData();
+    if (currentUser) {
+      postData();
+    }
   }, [currentUser]);
 
   return (
     <_Frame>
       {error && <div>error</div>}
-      {!data && <div>loading</div>}
-      {data && !isLoading && (
+      {!data && isLoading && <div>loading</div>}
+      {!isLoading && (
         <>
           <_H1>Animal Crossing Buddy</_H1>
           {currentUser && (
