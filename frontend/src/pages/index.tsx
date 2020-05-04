@@ -4,39 +4,42 @@ import * as firebase from 'firebase/app';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
+import { IslandInformation } from './index.model';
 import { _Frame, _H1 } from '../ui';
 
 const Home = (): ReactElement => {
   const { handleSignOut } = useAuth();
   const currentUser = useCurrentUser();
 
-  // google sign in start
+  const [villagerName, setVillagerName] = useState('');
+  const [islandName, setIslandName] = useState('');
+  const [islandNativeFruit, setIslandNativeFruit] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // is this running too many times?
+  const [islandInformation, setIslandInformation] = useState<IslandInformation>({
+    villagerName: '',
+    islandName: '',
+    islandNativeFruit: '',
+  });
+
+  /**
+   * GOOGLE SIGN IN START
+   */
+
   const handleRedirect = (): void => {
     firebase
       .auth()
       .getRedirectResult()
-      .then((result) => {
-        if (result.credential) {
-          // console.log('result creds...');
-        }
+      .then((): void => {
         setIsLoading(false);
-        // console.log('handle redirect ran...');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
         const email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
         const credential = error.credential;
-        console.log(errorCode);
-        console.log(errorMessage);
-        console.log(email);
-        console.log(credential);
+        console.log(errorCode, errorMessage, email, credential);
       });
   };
 
@@ -55,7 +58,24 @@ const Home = (): ReactElement => {
     handleRedirect();
   }, []);
 
-  // google sign in end
+  /**
+   * GOOGLE SIGN IN END
+   */
+
+  const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
+    event.preventDefault();
+    await axios.post('/api/users/island', {
+      data: {
+        villagerName,
+        islandName,
+        islandNativeFruit,
+        uid: currentUser?.uid,
+      },
+    });
+    setVillagerName('');
+    setIslandName('');
+    setIslandNativeFruit('');
+  };
 
   const fetcher = (url: string): Promise<void> =>
     axios
@@ -78,18 +98,6 @@ const Home = (): ReactElement => {
     }
   }, [currentUser]);
 
-  interface IslandInformation {
-    villagerName: string;
-    islandName: string;
-    islandNativeFruit: string;
-  }
-
-  const [islandInformation, setIslandInformation] = useState<IslandInformation>({
-    villagerName: '',
-    islandName: '',
-    islandNativeFruit: '',
-  });
-
   useEffect(() => {
     const fetchIslandData = async (): Promise<AxiosResponse<IslandInformation>> => {
       const res = await axios.get(`/api/users/island?uid=${currentUser?.uid}`);
@@ -100,25 +108,6 @@ const Home = (): ReactElement => {
       fetchIslandData();
     }
   }, [currentUser]);
-
-  const [villagerName, setVillagerName] = useState('');
-  const [islandName, setIslandName] = useState('');
-  const [islandNativeFruit, setIslandNativeFruit] = useState('');
-
-  const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
-    event.preventDefault();
-    await axios.post('/api/users/island', {
-      data: {
-        villagerName,
-        islandName,
-        islandNativeFruit,
-        uid: currentUser?.uid,
-      },
-    });
-    setVillagerName('');
-    setIslandName('');
-    setIslandNativeFruit('');
-  };
 
   return (
     <_Frame>
@@ -131,7 +120,6 @@ const Home = (): ReactElement => {
             <>
               <div>welcome back {currentUser.email}!</div>
               <div>
-                {console.log(islandInformation)}
                 <h3>island info</h3>
                 <h4>villager name: {islandInformation.villagerName}</h4>
                 <h4>island name: {islandInformation.islandName}</h4>
