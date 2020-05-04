@@ -23,3 +23,15 @@ export interface UpdateDocumentParams {
   queryField: string;
   queryValue: string;
 }
+
+export interface FindDocumentAndUpdateDocumentParams {
+  dbName: string;
+  collectionName: string;
+  queryField: string;
+  queryValue: string;
+  island: {
+    villagerName: string;
+    islandName: string;
+    islandNativeFruit: string;
+  };
+}

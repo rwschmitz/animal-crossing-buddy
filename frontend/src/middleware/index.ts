@@ -4,6 +4,7 @@ import {
   GetDocumentsByQueryFromCollectionParams,
   AddOneDocumentToCollectionParams,
   UpdateDocumentParams,
+  FindDocumentAndUpdateDocumentParams,
 } from './index.model';
 
 const { MongoClient } = mongodb;
@@ -78,8 +79,10 @@ const findDocumentAndUpdateDocument = async ({
   collectionName,
   queryField,
   queryValue,
-}: any): Promise<void> => {
+  island,
+}: FindDocumentAndUpdateDocumentParams): Promise<void> => {
   const client = await connectToMongoClient();
+  const { villagerName, islandName, islandNativeFruit } = island;
   client
     .db(dbName)
     .collection(collectionName)
@@ -89,11 +92,10 @@ const findDocumentAndUpdateDocument = async ({
       },
       {
         $set: {
-          testNumber: '002',
-          parentKey: {
-            name: 'rudy',
-            age: 31,
-            cool: true,
+          island: {
+            villagerName,
+            islandName,
+            islandNativeFruit,
           },
         },
       },

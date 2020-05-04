@@ -25,7 +25,6 @@ export default async (req: UserRequest, res: NowResponse): Promise<void> => {
     res.status(200).json(response);
   }
   if (req.method === 'POST') {
-    console.log(req.body);
     const { uid } = req.body.data;
     await updateDocument({
       dbName: 'animal-crossing-buddy',

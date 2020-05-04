@@ -83,9 +83,27 @@ const Home = (): ReactElement => {
     }
   }, [currentUser]);
 
+  // const [islandInformation, setIslandInformation] = useState<any>('');
+
+  // useEffect(() => {
+  //   const fetchIslandData = async (): Promise<AxiosResponse> => {
+  //     const res = await axios.get(`/api/users/island?uid=${currentUser?.uid}`);
+  //     setIslandInformation(res);
+  //     return res;
+  //   };
+  //   if (currentUser) {
+  //     fetchIslandData();
+  //   }
+  // }, [currentUser]);
+
   const [villagerName, setVillagerName] = useState('');
   const [islandName, setIslandName] = useState('');
   const [islandNativeFruit, setIslandNativeFruit] = useState('');
+
+  const { data: islandData, error: islandError } = useSwr(
+    currentUser?.uid ? `/api/users/island?uid=${currentUser.uid}` : null,
+    fetcher
+  );
 
   const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -97,9 +115,9 @@ const Home = (): ReactElement => {
         uid: currentUser?.uid,
       },
     });
-    console.log(villagerName);
-    console.log(islandName);
-    console.log(islandNativeFruit);
+    setVillagerName('');
+    setIslandName('');
+    setIslandNativeFruit('');
   };
 
   return (
@@ -112,7 +130,14 @@ const Home = (): ReactElement => {
           {currentUser && (
             <>
               <div>welcome back {currentUser.email}!</div>
-
+              <div>
+                {console.log(islandData)}
+                {islandError && console.log(islandError)}
+                <h3>island info</h3>
+                <h4>villager name: {islandData && (islandData[0] as any).island.villagerName}</h4>
+                <h4>island name: {islandData && (islandData[0] as any).island.islandName}</h4>
+                <h4>island native fruit: {islandData && (islandData[0] as any).island.islandNativeFruit}</h4>
+              </div>
               <form
                 onSubmit={(event): Promise<void> => handleUpdateIslandInformation(event)}
                 style={{ border: '2px dashed white', marginBottom: '2rem', marginTop: '2rem', maxWidth: '500px' }}
