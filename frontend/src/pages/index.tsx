@@ -1,11 +1,10 @@
-import React, { ReactElement, useEffect, useState, FormEvent } from 'react';
-import axios from 'axios';
+import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import * as firebase from 'firebase/app';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
 import { _Frame, _H1 } from '../ui';
-
-import * as firebase from 'firebase/app';
 
 const Home = (): ReactElement => {
   const { handleSignOut } = useAuth();
@@ -66,10 +65,6 @@ const Home = (): ReactElement => {
 
   const { data, error } = useSwr(currentUser?.uid ? `/api/users/users?uid=${currentUser.uid}` : null, fetcher);
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
   useEffect(() => {
     const postData = async (): Promise<void> => {
       await axios.post('/api/users/users', {
@@ -83,27 +78,32 @@ const Home = (): ReactElement => {
     }
   }, [currentUser]);
 
-  // const [islandInformation, setIslandInformation] = useState<any>('');
+  interface IslandInformation {
+    villagerName: string;
+    islandName: string;
+    islandNativeFruit: string;
+  }
 
-  // useEffect(() => {
-  //   const fetchIslandData = async (): Promise<AxiosResponse> => {
-  //     const res = await axios.get(`/api/users/island?uid=${currentUser?.uid}`);
-  //     setIslandInformation(res);
-  //     return res;
-  //   };
-  //   if (currentUser) {
-  //     fetchIslandData();
-  //   }
-  // }, [currentUser]);
+  const [islandInformation, setIslandInformation] = useState<IslandInformation>({
+    villagerName: '',
+    islandName: '',
+    islandNativeFruit: '',
+  });
+
+  useEffect(() => {
+    const fetchIslandData = async (): Promise<AxiosResponse<IslandInformation>> => {
+      const res = await axios.get(`/api/users/island?uid=${currentUser?.uid}`);
+      setIslandInformation(res.data);
+      return res;
+    };
+    if (currentUser) {
+      fetchIslandData();
+    }
+  }, [currentUser]);
 
   const [villagerName, setVillagerName] = useState('');
   const [islandName, setIslandName] = useState('');
   const [islandNativeFruit, setIslandNativeFruit] = useState('');
-
-  const { data: islandData, error: islandError } = useSwr(
-    currentUser?.uid ? `/api/users/island?uid=${currentUser.uid}` : null,
-    fetcher
-  );
 
   const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -131,12 +131,11 @@ const Home = (): ReactElement => {
             <>
               <div>welcome back {currentUser.email}!</div>
               <div>
-                {console.log(islandData)}
-                {islandError && console.log(islandError)}
+                {console.log(islandInformation)}
                 <h3>island info</h3>
-                <h4>villager name: {islandData && (islandData[0] as any).island.villagerName}</h4>
-                <h4>island name: {islandData && (islandData[0] as any).island.islandName}</h4>
-                <h4>island native fruit: {islandData && (islandData[0] as any).island.islandNativeFruit}</h4>
+                <h4>villager name: {islandInformation.villagerName}</h4>
+                <h4>island name: {islandInformation.islandName}</h4>
+                <h4>island native fruit: {islandInformation.islandNativeFruit}</h4>
               </div>
               <form
                 onSubmit={(event): Promise<void> => handleUpdateIslandInformation(event)}

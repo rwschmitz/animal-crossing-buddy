@@ -1,33 +1,25 @@
-import { NowRequest, NowResponse } from '@now/node';
+import { NowResponse } from '@now/node';
 import { findDocumentAndUpdateDocument, getDocumentsByQueryFromCollection } from '../../../middleware';
+import { IslandData, IslandRequest } from '../../../api-models/users/island.model';
 
-interface UserRequest extends NowRequest {
-  body: {
-    data: {
-      uid: string;
-      villagerName: string;
-      islandName: string;
-      islandNativeFruit: string;
-    };
-  };
-  query: {
-    uid: string;
-  };
-}
-
-export default async (req: UserRequest, res: NowResponse): Promise<void> => {
+export default async (req: IslandRequest, res: NowResponse): Promise<void> => {
   if (req.method === 'GET') {
     const { uid } = req.query;
-    const response = await getDocumentsByQueryFromCollection({
+    const response = await getDocumentsByQueryFromCollection<IslandData>({
       dbName: 'animal-crossing-buddy',
       collectionName: 'users',
       queryField: 'uid',
       queryValue: uid,
     });
-    console.log('island api', response);
+
+    const [islandArray] = response;
+    const { island } = islandArray;
+
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(response);
+    res.status(200).json(island);
+    res.end();
   }
+
   if (req.method === 'POST') {
     const { uid, villagerName, islandName, islandNativeFruit } = req.body.data;
     await findDocumentAndUpdateDocument({
@@ -41,8 +33,6 @@ export default async (req: UserRequest, res: NowResponse): Promise<void> => {
         islandNativeFruit,
       },
     });
-    // find user by uid
-    // update their island info
     res.setHeader('Content-Type', 'application/json');
     res.status(200);
     res.end();

@@ -36,12 +36,12 @@ const getAllDocumentsFromCollection = async ({
   return data;
 };
 
-const getDocumentsByQueryFromCollection = async ({
+const getDocumentsByQueryFromCollection = async <T>({
   dbName,
   collectionName,
   queryField,
   queryValue,
-}: GetDocumentsByQueryFromCollectionParams): Promise<Array<{}>> => {
+}: GetDocumentsByQueryFromCollectionParams): Promise<Array<T>> => {
   const client = await connectToMongoClient();
   const collection = client.db(dbName).collection(collectionName);
   const data = await collection.find({ [`${queryField}`]: { $eq: queryValue } }).toArray();
