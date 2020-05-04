@@ -1,6 +1,6 @@
 import { NowResponse } from '@now/node';
 import { getDocumentsByQueryFromCollection, updateDocument } from '../../../middleware';
-import { UserRequest } from '../../../api-models/users/users.model';
+import { UserRequest } from '../../../models/api-models/users/users.model';
 
 export default async (req: UserRequest, res: NowResponse): Promise<void> => {
   if (req.method === 'GET') {

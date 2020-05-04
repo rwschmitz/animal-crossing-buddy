@@ -4,7 +4,7 @@ import * as firebase from 'firebase/app';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
-import { IslandInformation } from './index.model';
+import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Frame, _H1 } from '../ui';
 
 const Home = (): ReactElement => {

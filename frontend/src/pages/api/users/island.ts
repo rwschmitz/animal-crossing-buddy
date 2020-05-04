@@ -1,6 +1,6 @@
 import { NowResponse } from '@now/node';
 import { findDocumentAndUpdateDocument, getDocumentsByQueryFromCollection } from '../../../middleware';
-import { IslandData, IslandRequest } from '../../../api-models/users/island.model';
+import { IslandData, IslandRequest } from '../../../models/api-models/users/island.model';
 
 export default async (req: IslandRequest, res: NowResponse): Promise<void> => {
   if (req.method === 'GET') {
