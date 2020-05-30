@@ -1,11 +1,39 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import * as firebase from 'firebase/app';
+import { Storage } from 'aws-amplify';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Frame, _H1 } from '../ui';
+
+const ImageUploader = (): ReactElement => {
+  const handleChange = (event: any): void => {
+    const file = event.target.files[0];
+    Storage.put('rws-example-001', file)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  };
+
+  const handleClick = (): void => {
+    Storage.put('test.txt', 'Hello', {
+      progressCallback(progress: any) {
+        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+      },
+    })
+      .then((result): void => console.log(result))
+      .catch((err): void => console.log(err));
+  };
+
+  return (
+    <div>
+      <h2>IMAGE UPLOADER</h2>
+      <input type='file' accept='image/*' onChange={(event): void => handleChange(event)} />
+      <button onClick={(): void => handleClick()}>upload blank text file</button>
+    </div>
+  );
+};
 
 const Home = (): ReactElement => {
   const { handleSignOut } = useAuth();
@@ -125,6 +153,7 @@ const Home = (): ReactElement => {
                 <h4>island name: {islandInformation.islandName}</h4>
                 <h4>island native fruit: {islandInformation.islandNativeFruit}</h4>
               </div>
+              <ImageUploader />
               <form
                 onSubmit={(event): Promise<void> => handleUpdateIslandInformation(event)}
                 style={{ border: '2px dashed white', marginBottom: '2rem', marginTop: '2rem', maxWidth: '500px' }}
