@@ -9,6 +9,7 @@ import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Frame, _H1 } from '../ui';
 
 const ImageUploader = (): ReactElement => {
+  console.log(Storage);
   const handleChange = (event: any): void => {
     const file = event.target.files[0];
     Storage.put('rws-example-001', file)
