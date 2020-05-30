@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import * as firebase from 'firebase/app';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
-import { AuthForm } from '../components';
+import { AuthForm, ImageUploader } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Frame, _H1 } from '../ui';
 
@@ -125,6 +125,7 @@ const Home = (): ReactElement => {
                 <h4>island name: {islandInformation.islandName}</h4>
                 <h4>island native fruit: {islandInformation.islandNativeFruit}</h4>
               </div>
+              <ImageUploader />
               <form
                 onSubmit={(event): Promise<void> => handleUpdateIslandInformation(event)}
                 style={{ border: '2px dashed white', marginBottom: '2rem', marginTop: '2rem', maxWidth: '500px' }}
