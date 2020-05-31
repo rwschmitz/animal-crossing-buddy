@@ -1,7 +1,7 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import * as firebase from 'firebase/app';
-import { Storage } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
@@ -9,8 +9,8 @@ import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Frame, _H1 } from '../ui';
 
 const ImageUploader = (): ReactElement => {
-  console.log(Storage);
   const handleChange = (event: any): void => {
+    Auth.currentCredentials();
     const file = event.target.files[0];
     Storage.put('rws-example-001', file)
       .then((res) => console.log(res))
@@ -18,13 +18,20 @@ const ImageUploader = (): ReactElement => {
   };
 
   const handleClick = (): void => {
-    Storage.put('test.txt', 'Hello', {
-      progressCallback(progress: any) {
-        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-      },
-    })
-      .then((result): void => console.log(result))
-      .catch((err): void => console.log(err));
+    Auth.currentCredentials()
+      .then((res) => {
+        console.log('this is the res -> ', res);
+        Storage.put('test.txt', 'Hello', {
+          progressCallback(progress: any) {
+            console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+          },
+        })
+          .then((result): void => console.log(result))
+          .catch((err): void => console.log(err));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

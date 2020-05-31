@@ -1,15 +1,4 @@
 {
-	"auth": {
-		"frontend42305dac": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	},
-	"storage": {
-		"animalcrossingbuddys3": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation"
-		}
-	}
+	"auth": {},
+	"storage": {}
 }
