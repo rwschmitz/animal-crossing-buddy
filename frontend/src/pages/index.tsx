@@ -10,27 +10,27 @@ import { _Frame, _H1 } from '../ui';
 
 const ImageUploader = (): ReactElement => {
   const handleChange = (event: any): void => {
-    Auth.currentCredentials();
-    const file = event.target.files[0];
-    Storage.put('rws-example-001', file)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+    event.persist();
+    Auth.currentCredentials()
+      .then(() => {
+        const file = event.target.files[0];
+        Storage.put('rws-example-001', file)
+          .then((res) => console.log(res))
+          .catch((error) => console.log(error));
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleClick = (): void => {
     Auth.currentCredentials()
       .then((res) => {
-        console.log('this is the res -> ', res);
-        Storage.put('test.txt', 'Hello', {
-          progressCallback(progress: any) {
-            console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
-          },
-        })
-          .then((result): void => console.log(result))
-          .catch((err): void => console.log(err));
+        console.log('res', res);
+        Storage.put('test.txt', 'Hello')
+          .then((result) => console.log(result))
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
-        console.log(err);
+        console.log('err', err);
       });
   };
 

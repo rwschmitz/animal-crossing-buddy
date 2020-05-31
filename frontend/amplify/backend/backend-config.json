@@ -1,0 +1,15 @@
+{
+	"auth": {
+		"frontend8c1bfd82": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"storage": {
+		"animalcrossingbuddys3001": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
