@@ -9,8 +9,8 @@ import useSwr from 'swr';
 
 const Home = (): ReactElement => {
   const { code, email, handleCode, handleConfirmation, handleEmail, handleSignOut } = useAuth();
+  // Destrcuture currentUser
   const currentUser = useCurrentUser();
-  console.log('home ', currentUser.username);
 
   const [villagerName, setVillagerName] = useState('');
   const [islandName, setIslandName] = useState('');
@@ -91,7 +91,7 @@ const Home = (): ReactElement => {
           <_H1>Animal Crossing Buddy</_H1>
           {currentUser && (
             <>
-              {/* <div>welcome back {currentUser.email}!</div> */}
+              <div>welcome back {currentUser.email}!</div>
               <div>
                 <h3>island info</h3>
                 <h4>villager name: {islandInformation.villagerName}</h4>
