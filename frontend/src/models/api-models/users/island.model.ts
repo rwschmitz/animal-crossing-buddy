@@ -10,7 +10,7 @@ export interface IslandRequest extends NowRequest {
     };
   };
   query: {
-    uid: string;
+    username: string;
   };
 }
 

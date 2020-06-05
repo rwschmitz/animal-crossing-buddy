@@ -1,17 +1,33 @@
 import { useEffect, useState } from 'react';
-import { auth, User } from 'firebase';
+import { Auth } from 'aws-amplify';
 
-type UseAuthState = User | null;
+interface CurrentUserInfo {
+  username: string;
+  attributes: {
+    email: string;
+  };
+}
 
-const useCurrentUser = (): UseAuthState => {
-  const [currentUser, setCurrentUser] = useState<UseAuthState>(null);
-  const firebaseAuth = auth();
+interface UseCurrentUserState {
+  username: string;
+  email: string;
+}
+
+const useCurrentUser = (): UseCurrentUserState => {
+  const [currentUser, setCurrentUser] = useState<UseCurrentUserState>({ username: '', email: '' });
 
   useEffect((): void => {
-    firebaseAuth.onAuthStateChanged((user: UseAuthState) => {
-      setCurrentUser(user);
-    });
-  }, [currentUser, firebaseAuth]);
+    const fetchCurrentUser = async (): Promise<void> => {
+      const user: CurrentUserInfo = await Auth.currentUserInfo();
+      const { username, attributes } = user;
+      const { email } = attributes;
+      setCurrentUser({
+        username,
+        email,
+      });
+    };
+    fetchCurrentUser();
+  }, []);
 
   return currentUser;
 };

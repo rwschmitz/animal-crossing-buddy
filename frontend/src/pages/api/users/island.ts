@@ -4,12 +4,12 @@ import { IslandData, IslandRequest } from '../../../models/api-models/users/isla
 
 export default async (req: IslandRequest, res: NowResponse): Promise<void> => {
   if (req.method === 'GET') {
-    const { uid } = req.query;
+    const { username } = req.query;
     const response = await getDocumentsByQueryFromCollection<IslandData>({
       dbName: 'animal-crossing-buddy',
       collectionName: 'users',
       queryField: 'uid',
-      queryValue: uid,
+      queryValue: username,
     });
 
     const [islandArray] = response;

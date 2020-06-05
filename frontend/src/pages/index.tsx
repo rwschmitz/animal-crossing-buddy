@@ -1,16 +1,16 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import * as firebase from 'firebase/app';
+import axios from 'axios';
 import { Auth } from 'aws-amplify';
-import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm, ImageUploader } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
+import useSwr from 'swr';
 
 const Home = (): ReactElement => {
   const { code, email, handleCode, handleConfirmation, handleEmail, handleSignOut } = useAuth();
   const currentUser = useCurrentUser();
+  console.log('home ', currentUser.username);
 
   const [villagerName, setVillagerName] = useState('');
   const [islandName, setIslandName] = useState('');
@@ -24,44 +24,14 @@ const Home = (): ReactElement => {
     islandNativeFruit: '',
   });
 
-  /**
-   * GOOGLE SIGN IN START
-   */
-
-  const handleRedirect = (): void => {
-    firebase
-      .auth()
-      .getRedirectResult()
-      .then((): void => {
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = error.credential;
-        console.log(errorCode, errorMessage, email, credential);
-      });
-  };
-
-  // if a google account is already authenicated to the app,
-  // you can't sign up with that same email as a un/pw account
-  // this error occurs:
-  // errorCode auth/email-already-in-use
-  // errorMessage The email address is already in use by another account.
-  const loginWithGoogle = (): void => {
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().useDeviceLanguage();
-    firebase.auth().signInWithRedirect(googleProvider);
-  };
-
   useEffect(() => {
+    const handleRedirect = (): void => {
+      if (currentUser) {
+        setIsLoading(false);
+      }
+    };
     handleRedirect();
-  }, []);
-
-  /**
-   * GOOGLE SIGN IN END
-   */
+  }, [currentUser]);
 
   const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -70,7 +40,7 @@ const Home = (): ReactElement => {
         villagerName,
         islandName,
         islandNativeFruit,
-        uid: currentUser?.uid,
+        uid: currentUser?.username,
       },
     });
     setVillagerName('');
@@ -84,13 +54,16 @@ const Home = (): ReactElement => {
       .then((res) => res.data)
       .catch((error) => console.log(error));
 
-  const { data, error } = useSwr(currentUser?.uid ? `/api/users/users?uid=${currentUser.uid}` : null, fetcher);
+  const { data, error } = useSwr(
+    currentUser?.username ? `/api/users/users?uid=${currentUser.username}` : null,
+    fetcher
+  );
 
   useEffect(() => {
     const postData = async (): Promise<void> => {
       await axios.post('/api/users/users', {
         data: {
-          uid: currentUser?.uid,
+          uid: currentUser?.username,
         },
       });
     };
@@ -100,12 +73,11 @@ const Home = (): ReactElement => {
   }, [currentUser]);
 
   useEffect(() => {
-    const fetchIslandData = async (): Promise<AxiosResponse<IslandInformation>> => {
-      const res = await axios.get(`/api/users/island?uid=${currentUser?.uid}`);
+    const fetchIslandData = async (): Promise<void> => {
+      const res = await axios.get(`/api/users/island?username=${currentUser.username}`);
       setIslandInformation(res.data);
-      return res;
     };
-    if (currentUser) {
+    if (currentUser.username) {
       fetchIslandData();
     }
   }, [currentUser]);
@@ -119,7 +91,7 @@ const Home = (): ReactElement => {
           <_H1>Animal Crossing Buddy</_H1>
           {currentUser && (
             <>
-              <div>welcome back {currentUser.email}!</div>
+              {/* <div>welcome back {currentUser.email}!</div> */}
               <div>
                 <h3>island info</h3>
                 <h4>villager name: {islandInformation.villagerName}</h4>
@@ -196,7 +168,6 @@ const Home = (): ReactElement => {
               <button onClick={async (): Promise<void> => console.log(await Auth.currentUserInfo())}>log user</button>
               <AuthForm formTitle='Sign up' submitButtonText='Sign up!' type='sign-up' />
               <AuthForm formTitle='Sign in' submitButtonText='Sign in!' />
-              <button onClick={loginWithGoogle}>google sign in here</button>
             </>
           )}
         </>

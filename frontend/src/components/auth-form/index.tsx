@@ -11,6 +11,7 @@ const AuthForm = (props: AuthFormProps): ReactElement => {
   return (
     <section>
       <_H2>{formTitle}</_H2>
+      {/* This should probably be a switch statement, not a ternary */}
       <_Form onSubmit={(event): void => (type === 'sign-up' ? handleSignUp(event) : handleSignIn(event))}>
         <_Container>
           <_FormLabel id={emailLabel} htmlFor={emailLabel}>

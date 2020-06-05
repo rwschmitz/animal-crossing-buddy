@@ -27,15 +27,6 @@ const useAuth = (): UseAuthReturnValues => {
     } catch (error) {
       console.log('error signing up: ', error);
     }
-    // firebaseAuth
-    //   .createUserWithEmailAndPassword(email, password)
-    //   .then((): void => {
-    //     clearFormFields();
-    //     console.log('added user successfully');
-    //   })
-    //   .catch((error) => {
-    //     logErrors(error);
-    //   });
   };
 
   const confirmSignup = async (event: FormEvent): Promise<void> => {
