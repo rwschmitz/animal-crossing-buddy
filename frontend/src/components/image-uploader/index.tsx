@@ -1,6 +1,15 @@
 import React, { ReactElement, useState } from 'react';
 import { Auth, Storage } from 'aws-amplify';
 
+/**
+ * 1 - Image is uploaded to s3 bucket with the name of file.
+ * 2 - When the image is uploaded successfully, an object key is returned.
+ *  2a - This object key is the first param in Storage.put().
+ * 3 - On the success of the upload, send the final URL to mongoDB
+ * 4 - When a user returns to their page, a fetch is made to get all images from their document, an array of images.
+ * 5 - Wherever the array of images is being used, loop over the array to display all the images.
+ */
+
 const ImageUploader = (): ReactElement => {
   const [imageKey, setImageKey] = useState('');
   const handleChange = (event: any): void => {
@@ -10,7 +19,7 @@ const ImageUploader = (): ReactElement => {
         const file = event.target.files[0];
         console.log(event.target.files);
         const name = file.name;
-        Storage.put(name, file) // create key with UUID?, then store this key in mongodb, and then fetch urls from mongodb to get images from aws
+        Storage.put(name, file)
           .then((res) => console.log(res))
           .catch((error) => console.log(error));
       })
