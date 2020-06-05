@@ -1,59 +1,12 @@
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import * as firebase from 'firebase/app';
-import { Auth, Storage } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
-import { AuthForm } from '../components';
+import { AuthForm, ImageUploader } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
-
-const ImageUploader = (): ReactElement => {
-  const handleChange = (event: any): void => {
-    event.persist(); // needed for accessing event.target ... remove it to see error ... something about synthetic event pooling
-    Auth.currentCredentials()
-      .then(() => {
-        const file = event.target.files[0];
-        Storage.put('rws-example-001', file) // create key with UUID?, then store this key in mongodb, and then fetch urls from mongodb to get images from aws
-          .then((res) => console.log(res))
-          .catch((error) => console.log(error));
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleClick = (): void => {
-    Auth.currentCredentials()
-      .then(() => {
-        Storage.put('test.txt', 'Hello')
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
-  };
-
-  const getMoreInfo = (): void => {
-    Auth.currentCredentials()
-      .then(() => {
-        Storage.list('')
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
-  };
-
-  return (
-    <div>
-      <h2>IMAGE UPLOADER</h2>
-      <input type='file' accept='image/*' onChange={(event): void => handleChange(event)} />
-      <button onClick={(): void => handleClick()}>upload blank text file</button>
-      <button onClick={(): void => getMoreInfo()}>get info</button>
-    </div>
-  );
-};
 
 const Home = (): ReactElement => {
   const { code, email, handleCode, handleConfirmation, handleEmail, handleSignOut } = useAuth();
