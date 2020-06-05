@@ -19,13 +19,12 @@ const useAuth = (): UseAuthReturnValues => {
     event.preventDefault();
     try {
       clearFormFields();
-      const user = await Auth.signUp({
+      await Auth.signUp({
         username: email,
         password,
       });
-      console.log(user);
     } catch (error) {
-      console.log('error signing up: ', error);
+      console.error('error signing up: ', error);
     }
   };
 
@@ -34,9 +33,8 @@ const useAuth = (): UseAuthReturnValues => {
     try {
       clearFormFields();
       await Auth.confirmSignUp(email, code);
-      console.log('successful confirmation');
     } catch (error) {
-      console.log('error confirming sign up', error);
+      console.error('error confirming sign up', error);
     }
   };
 
@@ -44,20 +42,17 @@ const useAuth = (): UseAuthReturnValues => {
     event.preventDefault();
     try {
       clearFormFields();
-      const user = await Auth.signIn(email, password);
-      console.log(user);
+      await Auth.signIn(email, password);
     } catch (error) {
-      console.log('error signing in ', error);
+      console.error('error signing in ', error);
     }
   };
 
   const signOutUser = async (): Promise<void> => {
     try {
-      const user = await Auth.signOut();
-      console.log('success');
-      console.log(user);
+      await Auth.signOut();
     } catch (error) {
-      console.log('error signing out ', error);
+      console.error('error signing out ', error);
     }
   };
 
