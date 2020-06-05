@@ -6,7 +6,7 @@ import useSwr from 'swr';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
-import { _Frame, _H1 } from '../ui';
+import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
 
 const ImageUploader = (): ReactElement => {
   const handleChange = (event: any): void => {
@@ -56,7 +56,7 @@ const ImageUploader = (): ReactElement => {
 };
 
 const Home = (): ReactElement => {
-  const { handleSignOut } = useAuth();
+  const { code, email, handleCode, handleConfirmation, handleEmail, handleSignOut } = useAuth();
   const currentUser = useCurrentUser();
 
   const [villagerName, setVillagerName] = useState('');
@@ -219,6 +219,28 @@ const Home = (): ReactElement => {
           )}
           {!currentUser && (
             <>
+              <section>
+                <_H2>Confirm sign up!</_H2>
+                <_Form onSubmit={(event): void => handleConfirmation(event)}>
+                  <_Container>
+                    <_FormLabel id='email' htmlFor='email'>
+                      email
+                    </_FormLabel>
+                    <input name='email' onChange={(event): void => handleEmail(event.target.value)} value={email} />
+                  </_Container>
+                  <_Container>
+                    <_FormLabel id='code' htmlFor='code'>
+                      code
+                    </_FormLabel>
+                    <input name='code' onChange={(event): void => handleCode(event.target.value)} value={code} />
+                  </_Container>
+                  <_Container>
+                    <input type='submit' value='confirm account' />
+                  </_Container>
+                </_Form>
+              </section>
+              <button onClick={handleSignOut}>sign out (temp due to switch to aws)</button>
+              <button onClick={async (): Promise<void> => console.log(await Auth.currentUserInfo())}>log user</button>
               <AuthForm formTitle='Sign up' submitButtonText='Sign up!' type='sign-up' />
               <AuthForm formTitle='Sign in' submitButtonText='Sign in!' />
               <button onClick={loginWithGoogle}>google sign in here</button>

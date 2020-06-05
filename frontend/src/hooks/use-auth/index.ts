@@ -1,86 +1,84 @@
 import { FormEvent, useState } from 'react';
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-
-interface UseAuthReturnValues {
-  handleEmail: (value: string) => void;
-  handlePassword: (value: string) => void;
-  handleSignIn: (event: FormEvent) => void;
-  handleSignOut: () => void;
-  handleSignUp: (event: FormEvent) => void;
-  email: string;
-  password: string;
-}
-
-interface AuthError extends Error {
-  code: string;
-  message: string;
-}
+import { Auth } from 'aws-amplify';
+import { UseAuthReturnValues } from './index.model';
 
 const useAuth = (): UseAuthReturnValues => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const firebaseAuth = firebase.auth();
+  const [code, setCode] = useState('');
 
   // should i clear un/pw when the sign-in or sign-up errors out?
 
   const clearFormFields = (): void => {
     setEmail('');
     setPassword('');
+    setCode('');
   };
 
-  const logErrors = (error: AuthError): void => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log('errorCode', errorCode);
-    console.log('errorMessage', errorMessage);
-  };
-
-  const createAccount = (event: FormEvent): void => {
+  const createAccount = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    firebaseAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then((): void => {
-        clearFormFields();
-        console.log('added user successfully');
-      })
-      .catch((error) => {
-        logErrors(error);
+    try {
+      clearFormFields();
+      const user = await Auth.signUp({
+        username: email,
+        password,
       });
+      console.log(user);
+    } catch (error) {
+      console.log('error signing up: ', error);
+    }
+    // firebaseAuth
+    //   .createUserWithEmailAndPassword(email, password)
+    //   .then((): void => {
+    //     clearFormFields();
+    //     console.log('added user successfully');
+    //   })
+    //   .catch((error) => {
+    //     logErrors(error);
+    //   });
   };
 
-  const signInAccount = (event: FormEvent): void => {
+  const confirmSignup = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((): void => {
-        console.log('user signed in succesfully');
-        clearFormFields();
-      })
-      .catch((error) => {
-        logErrors(error);
-      });
+    try {
+      clearFormFields();
+      await Auth.confirmSignUp(email, code);
+      console.log('successful confirmation');
+    } catch (error) {
+      console.log('error confirming sign up', error);
+    }
   };
 
-  const signOutUser = (): void => {
-    firebase
-      .auth()
-      .signOut()
-      .then((): void => {
-        console.log('signout successful');
-      })
-      .catch((error): void => {
-        console.log('signout failed with this error', error);
-      });
+  const signInAccount = async (event: FormEvent): Promise<void> => {
+    event.preventDefault();
+    try {
+      clearFormFields();
+      const user = await Auth.signIn(email, password);
+      console.log(user);
+    } catch (error) {
+      console.log('error signing in ', error);
+    }
+  };
+
+  const signOutUser = async (): Promise<void> => {
+    try {
+      const user = await Auth.signOut();
+      console.log('success');
+      console.log(user);
+    } catch (error) {
+      console.log('error signing out ', error);
+    }
   };
 
   return {
+    handleConfirmation: (event): Promise<void> => confirmSignup(event),
+    handleCode: (value): void => setCode(value),
     handleEmail: (value): void => setEmail(value),
     handlePassword: (value): void => setPassword(value),
-    handleSignIn: (event): void => signInAccount(event),
-    handleSignOut: (): void => signOutUser(),
-    handleSignUp: (event): void => createAccount(event),
+    handleSignIn: (event): Promise<void> => signInAccount(event),
+    handleSignOut: (): Promise<void> => signOutUser(),
+    handleSignUp: (event): Promise<void> => createAccount(event),
+    code,
     email,
     password,
   };
