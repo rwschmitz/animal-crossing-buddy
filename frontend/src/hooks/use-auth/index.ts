@@ -7,7 +7,7 @@ const useAuth = (): UseAuthReturnValues => {
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
 
-  // should i clear un/pw when the sign-in or sign-up errors out?
+  // Probably don't clear out un/pw when form submission errors out. It's annoying.
 
   const clearFormFields = (): void => {
     setEmail('');
