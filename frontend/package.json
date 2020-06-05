@@ -9,9 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "aws-amplify": "^3.0.13",
+    "aws-amplify": "3.0.13",
     "axios": "0.19.2",
-    "firebase": "7.14.1",
     "mongodb": "3.5.6",
     "next": "9.3.5",
     "normalize.css": "8.0.1",
