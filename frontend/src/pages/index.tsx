@@ -8,9 +8,9 @@ import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
 import useSwr from 'swr';
 
 const Home = (): ReactElement => {
-  const { code, email, handleCode, handleConfirmation, handleEmail, handleSignOut } = useAuth();
-  // Destrcuture currentUser
+  const { code, emailAddress, handleCode, handleConfirmation, handleEmailAddress, handleSignOut } = useAuth();
   const currentUser = useCurrentUser();
+  const { username, email } = currentUser;
 
   const [villagerName, setVillagerName] = useState('');
   const [islandName, setIslandName] = useState('');
@@ -26,12 +26,10 @@ const Home = (): ReactElement => {
 
   useEffect(() => {
     const handleRedirect = (): void => {
-      if (currentUser) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     };
     handleRedirect();
-  }, [currentUser]);
+  }, [username]);
 
   const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
@@ -89,9 +87,9 @@ const Home = (): ReactElement => {
       {!isLoading && (
         <>
           <_H1>Animal Crossing Buddy</_H1>
-          {currentUser && (
+          {username && (
             <>
-              <div>welcome back {currentUser.email}!</div>
+              <div>welcome back {email}!</div>
               <div>
                 <h3>island info</h3>
                 <h4>villager name: {islandInformation.villagerName}</h4>
@@ -142,7 +140,7 @@ const Home = (): ReactElement => {
               <button onClick={handleSignOut}>sign out</button>
             </>
           )}
-          {!currentUser && (
+          {!username && (
             <>
               <section>
                 <_H2>Confirm sign up!</_H2>
@@ -151,7 +149,11 @@ const Home = (): ReactElement => {
                     <_FormLabel id='email' htmlFor='email'>
                       email
                     </_FormLabel>
-                    <input name='email' onChange={(event): void => handleEmail(event.target.value)} value={email} />
+                    <input
+                      name='email'
+                      onChange={(event): void => handleEmailAddress(event.target.value)}
+                      value={emailAddress}
+                    />
                   </_Container>
                   <_Container>
                     <_FormLabel id='code' htmlFor='code'>

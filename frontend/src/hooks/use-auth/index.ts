@@ -3,14 +3,14 @@ import { Auth } from 'aws-amplify';
 import { UseAuthReturnValues } from './index.model';
 
 const useAuth = (): UseAuthReturnValues => {
-  const [email, setEmail] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
 
   // Probably don't clear out un/pw when form submission errors out. It's annoying.
 
   const clearFormFields = (): void => {
-    setEmail('');
+    setEmailAddress('');
     setPassword('');
     setCode('');
   };
@@ -20,7 +20,7 @@ const useAuth = (): UseAuthReturnValues => {
     try {
       clearFormFields();
       await Auth.signUp({
-        username: email,
+        username: emailAddress,
         password,
       });
     } catch (error) {
@@ -32,7 +32,7 @@ const useAuth = (): UseAuthReturnValues => {
     event.preventDefault();
     try {
       clearFormFields();
-      await Auth.confirmSignUp(email, code);
+      await Auth.confirmSignUp(emailAddress, code);
     } catch (error) {
       console.error('error confirming sign up', error);
     }
@@ -42,7 +42,7 @@ const useAuth = (): UseAuthReturnValues => {
     event.preventDefault();
     try {
       clearFormFields();
-      await Auth.signIn(email, password);
+      await Auth.signIn(emailAddress, password);
     } catch (error) {
       console.error('error signing in ', error);
     }
@@ -59,13 +59,13 @@ const useAuth = (): UseAuthReturnValues => {
   return {
     handleConfirmation: (event): Promise<void> => confirmSignup(event),
     handleCode: (value): void => setCode(value),
-    handleEmail: (value): void => setEmail(value),
+    handleEmailAddress: (value): void => setEmailAddress(value),
     handlePassword: (value): void => setPassword(value),
     handleSignIn: (event): Promise<void> => signInAccount(event),
     handleSignOut: (): Promise<void> => signOutUser(),
     handleSignUp: (event): Promise<void> => createAccount(event),
     code,
-    email,
+    emailAddress,
     password,
   };
 };

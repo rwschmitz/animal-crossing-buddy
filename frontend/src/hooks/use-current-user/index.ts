@@ -3,17 +3,20 @@ import { Auth } from 'aws-amplify';
 import { AwsCurrentUserInfo, UseCurrentUserState } from './index.model';
 
 const useCurrentUser = (): UseCurrentUserState => {
-  const [currentUser, setCurrentUser] = useState<UseCurrentUserState>({ username: '', email: '' });
+  const [currentUser, setCurrentUser] = useState<UseCurrentUserState>({ username: null, email: null });
 
   useEffect((): void => {
     const fetchCurrentUser = async (): Promise<void> => {
       const user: AwsCurrentUserInfo = await Auth.currentUserInfo();
-      const { username, attributes } = user;
-      const { email } = attributes;
-      setCurrentUser({
-        username,
-        email,
-      });
+      console.log(user);
+      if (user) {
+        const { username, attributes } = user;
+        const { email } = attributes;
+        setCurrentUser({
+          username,
+          email,
+        });
+      }
     };
     fetchCurrentUser();
   }, []);

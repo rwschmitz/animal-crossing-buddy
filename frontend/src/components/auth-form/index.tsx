@@ -5,7 +5,7 @@ import { AuthFormProps } from './index.model';
 
 const AuthForm = (props: AuthFormProps): ReactElement => {
   const { formTitle, submitButtonText, type } = props;
-  const { handleEmail, handlePassword, handleSignIn, handleSignUp, email, password } = useAuth();
+  const { handleEmailAddress, handlePassword, handleSignIn, handleSignUp, emailAddress, password } = useAuth();
   const emailLabel = 'Email';
   const passwordLabel = 'Password';
   return (
@@ -17,7 +17,11 @@ const AuthForm = (props: AuthFormProps): ReactElement => {
           <_FormLabel id={emailLabel} htmlFor={emailLabel}>
             {emailLabel}
           </_FormLabel>
-          <input name={emailLabel} onChange={(event): void => handleEmail(event.target.value)} value={email} />
+          <input
+            name={emailLabel}
+            onChange={(event): void => handleEmailAddress(event.target.value)}
+            value={emailAddress}
+          />
         </_Container>
         <_Container>
           <_FormLabel id={passwordLabel} htmlFor={passwordLabel}>

@@ -6,6 +6,6 @@ export interface AwsCurrentUserInfo {
 }
 
 export interface UseCurrentUserState {
-  username: string;
-  email: string;
+  username: string | null;
+  email: string | null;
 }
