@@ -65,7 +65,7 @@ const ImageUploader = (): ReactElement => {
       <input type='file' accept='image/*' onChange={(event): void => handleChange(event)} />
       <button onClick={(): void => handleClick()}>upload blank text file</button>
       <button onClick={(): void => getMoreInfo()}>get info</button>
-      <img src={`https://dq4qf9v6l2li8.cloudfront.net/public/${imageKey}`} alt='cloudfront test' />
+      <img src={`https://dq4qf9v6l2li8.cloudfront.net/public/${imageKey}`} alt={imageKey} />
       <button onClick={(): void => getImage()}>get image</button>
     </div>
   );
