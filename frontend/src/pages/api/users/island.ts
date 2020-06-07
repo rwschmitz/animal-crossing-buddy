@@ -27,6 +27,7 @@ export default async (req: IslandRequest, res: NowResponse): Promise<void> => {
       collectionName: 'users',
       queryField: 'uid',
       queryValue: uid,
+      operator: '$set',
       updateField: 'island',
       updateValue: {
         villagerName,

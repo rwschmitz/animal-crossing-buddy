@@ -1,41 +1,35 @@
 export interface GetAllDocumentsFromCollectionParams {
-  dbName: string;
   collectionName: string;
+  dbName: string;
 }
 
 export interface GetDocumentsByQueryFromCollectionParams {
-  dbName: string;
   collectionName: string;
+  dbName: string;
   queryField: string;
   queryValue: string;
 }
 
 export interface AddOneDocumentToCollectionParams {
-  dbName: string;
   collectionName: string;
+  dbName: string;
   queryField: string;
   queryValue: string;
 }
 
 export interface UpdateDocumentParams {
-  dbName: string;
   collectionName: string;
+  dbName: string;
   queryField: string;
   queryValue: string;
 }
 
 export interface FindDocumentAndUpdateDocumentParams {
-  dbName: string;
   collectionName: string;
+  dbName: string;
+  operator: string;
   queryField: string;
   queryValue: string;
   updateField: string;
-  updateValue: string;
-
-  [key: string]: string;
-  // island: {
-  //   villagerName: string;
-  //   islandName: string;
-  //   islandNativeFruit: string;
-  // };
+  updateValue: unknown;
 }
