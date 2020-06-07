@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { Auth, Storage } from 'aws-amplify';
+import { useCurrentUser } from '../../hooks';
 
 /**
  * 1 - Image is uploaded to s3 bucket with the name of file.
@@ -12,42 +13,21 @@ import { Auth, Storage } from 'aws-amplify';
 
 const ImageUploader = (): ReactElement => {
   const [imageKey, setImageKey] = useState('');
-  const handleChange = (event: any): void => {
+  const { username } = useCurrentUser();
+
+  const handleChange = async (event: any): Promise<void> => {
     event.persist(); // needed for accessing event.target ... remove it to see error ... something about synthetic event pooling
+    console.log(username);
     Auth.currentCredentials()
       .then(() => {
         const file = event.target.files[0];
-        console.log(event.target.files);
-        const name = file.name;
+        const name = `${Date.now()}${file.name}`;
+        setImageKey(name);
         Storage.put(name, file)
           .then((res) => console.log(res))
           .catch((error) => console.log(error));
       })
       .catch((err) => console.log(err));
-  };
-
-  const handleClick = (): void => {
-    Auth.currentCredentials()
-      .then(() => {
-        Storage.put('test.txt', 'Hello')
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
-  };
-
-  const getMoreInfo = (): void => {
-    Auth.currentCredentials()
-      .then(() => {
-        Storage.list('')
-          .then((result) => console.log(result))
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
   };
 
   const getImage = (): void => {
@@ -62,9 +42,7 @@ const ImageUploader = (): ReactElement => {
   return (
     <div>
       <h2>IMAGE UPLOADER</h2>
-      <input type='file' accept='image/*' onChange={(event): void => handleChange(event)} />
-      <button onClick={(): void => handleClick()}>upload blank text file</button>
-      <button onClick={(): void => getMoreInfo()}>get info</button>
+      <input type='file' accept='image/*' onChange={(event): Promise<void> => handleChange(event)} />
       <img src={`https://dq4qf9v6l2li8.cloudfront.net/public/${imageKey}`} alt={imageKey} />
       <button onClick={(): void => getImage()}>get image</button>
     </div>

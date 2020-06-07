@@ -8,7 +8,6 @@ const useCurrentUser = (): UseCurrentUserState => {
   useEffect((): void => {
     const fetchCurrentUser = async (): Promise<void> => {
       const user: AwsCurrentUserInfo = await Auth.currentUserInfo();
-      console.log(user);
       if (user) {
         const { username, attributes } = user;
         const { email } = attributes;
