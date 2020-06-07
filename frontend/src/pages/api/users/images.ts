@@ -13,7 +13,6 @@ export default async (req: ImageRequest, res: NowResponse): Promise<void> => {
     });
 
     const [imagesArray] = response;
-    console.log(imagesArray);
     const { images } = imagesArray;
 
     res.setHeader('Content-Type', 'application/json');
