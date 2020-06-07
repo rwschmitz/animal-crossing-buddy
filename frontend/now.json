@@ -1,25 +1,11 @@
 {
   "env": {
-    "APIKEY": "@apikey-production-f4k1",
-    "AUTHDOMAIN": "@authdomain-production-sytu",
-    "DATABASEURL": "@databaseurl-production-zkua",
-    "PROJECTID": "@projectid-production-w68r",
-    "STORAGEBUCKET": "@storagebucket-production-dpxr",
-    "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
-    "APPID": "@appid-production-erud",
     "USER_NAME": "@user-name-production-3gmx",
     "USER_PASS": "@user-pass-production-zcjr",
     "DB_PATH": "@db-path-production-olqu"
   },
   "build": {
     "env": {
-      "APIKEY": "@apikey-production-f4k1",
-      "AUTHDOMAIN": "@authdomain-production-sytu",
-      "DATABASEURL": "@databaseurl-production-zkua",
-      "PROJECTID": "@projectid-production-w68r",
-      "STORAGEBUCKET": "@storagebucket-production-dpxr",
-      "MESSAGINGSENDERID": "@messagingsenderid-production-1lxx",
-      "APPID": "@appid-production-erud",
       "USER_NAME": "@user-name-production-3gmx",
       "USER_PASS": "@user-pass-production-zcjr",
       "DB_PATH": "@db-path-production-olqu"
