@@ -12,16 +12,18 @@ export default async (req: ImageRequest, res: NowResponse): Promise<void> => {
       queryValue: username,
     });
 
-    const [islandArray] = response;
-    const { island } = islandArray;
+    const [imagesArray] = response;
+    const { images } = imagesArray;
 
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(island);
+    res.status(200).json(images);
     res.end();
   }
 
   if (req.method === 'POST') {
     const { uid, imageUrl } = req.body.data;
+    console.log('username', uid);
+    console.log('imageUrl', imageUrl);
     await findDocumentAndUpdateDocument({
       dbName: 'animal-crossing-buddy',
       collectionName: 'users',
@@ -29,6 +31,7 @@ export default async (req: ImageRequest, res: NowResponse): Promise<void> => {
       queryValue: uid,
       updateField: 'images',
       updateValue: imageUrl,
+      operator: '$push',
     });
     res.setHeader('Content-Type', 'application/json');
     res.status(200);

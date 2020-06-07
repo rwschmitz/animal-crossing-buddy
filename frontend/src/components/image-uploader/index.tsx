@@ -18,7 +18,6 @@ const ImageUploader = (): ReactElement => {
 
   const handleChange = async (event: any): Promise<void> => {
     event.persist(); // needed for accessing event.target ... remove it to see error ... something about synthetic event pooling
-    console.log(username);
     Auth.currentCredentials()
       .then(() => {
         const file = event.target.files[0];

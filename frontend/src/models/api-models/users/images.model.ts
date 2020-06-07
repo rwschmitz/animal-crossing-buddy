@@ -13,9 +13,7 @@ export interface ImageRequest extends NowRequest {
 }
 
 export interface ImageData {
-  island: {
-    villagerName: string;
-    islandName: string;
-    islandNativeFruit: string;
+  images: {
+    imageUrls: string;
   };
 }
