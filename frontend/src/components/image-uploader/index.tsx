@@ -14,6 +14,7 @@ import { useCurrentUser } from '../../hooks';
 
 const ImageUploader = (): ReactElement => {
   const [imageKey, setImageKey] = useState('');
+  const [imageArr, setImageArr] = useState([]);
   const { username } = useCurrentUser();
 
   const handleChange = async (event: any): Promise<void> => {
@@ -47,12 +48,30 @@ const ImageUploader = (): ReactElement => {
     });
   };
 
+  const fetchImages = async (): Promise<void> => {
+    const res = await axios.get(`/api/users/images?username=${username}`);
+    const { data } = res;
+    setImageArr(data);
+  };
+
   return (
     <div>
       <h2>IMAGE UPLOADER</h2>
       <input type='file' accept='image/*' onChange={(event): Promise<void> => handleChange(event)} />
       <img src={`https://dq4qf9v6l2li8.cloudfront.net/public/${imageKey}`} alt={imageKey} />
       <button onClick={(): void => getImage()}>get image</button>
+      <button onClick={(): Promise<void> => fetchImages()}>fetch image urls</button>
+      <div>
+        <h2>images from db</h2>
+        {imageArr.map((item) => (
+          <img
+            style={{ height: '250px', width: '250px', objectFit: 'cover' }}
+            src={`https://dq4qf9v6l2li8.cloudfront.net/public/${item}`}
+            alt={item}
+            key={item}
+          />
+        ))}
+      </div>
     </div>
   );
 };

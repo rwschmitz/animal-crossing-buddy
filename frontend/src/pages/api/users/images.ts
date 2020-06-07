@@ -13,6 +13,7 @@ export default async (req: ImageRequest, res: NowResponse): Promise<void> => {
     });
 
     const [imagesArray] = response;
+    console.log(imagesArray);
     const { images } = imagesArray;
 
     res.setHeader('Content-Type', 'application/json');
@@ -22,8 +23,6 @@ export default async (req: ImageRequest, res: NowResponse): Promise<void> => {
 
   if (req.method === 'POST') {
     const { uid, imageUrl } = req.body.data;
-    console.log('username', uid);
-    console.log('imageUrl', imageUrl);
     await findDocumentAndUpdateDocument({
       dbName: 'animal-crossing-buddy',
       collectionName: 'users',
