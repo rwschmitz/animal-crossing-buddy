@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { Auth, Storage } from 'aws-amplify';
+import axios from 'axios';
 import { useCurrentUser } from '../../hooks';
 
 /**
@@ -24,7 +25,15 @@ const ImageUploader = (): ReactElement => {
         const name = `${Date.now()}${file.name}`;
         setImageKey(name);
         Storage.put(name, file)
-          .then((res) => console.log(res))
+          .then((res) => {
+            const { key }: any = res;
+            axios.post('/api/users/images', {
+              data: {
+                uid: username,
+                imageUrl: key,
+              },
+            });
+          })
           .catch((error) => console.log(error));
       })
       .catch((err) => console.log(err));

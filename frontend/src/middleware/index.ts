@@ -79,10 +79,12 @@ const findDocumentAndUpdateDocument = async ({
   collectionName,
   queryField,
   queryValue,
-  island,
+  // island,
+  updateField,
+  updateValue,
 }: FindDocumentAndUpdateDocumentParams): Promise<void> => {
   const client = await connectToMongoClient();
-  const { villagerName, islandName, islandNativeFruit } = island;
+  // const { villagerName, islandName, islandNativeFruit } = island;
   client
     .db(dbName)
     .collection(collectionName)
@@ -92,11 +94,14 @@ const findDocumentAndUpdateDocument = async ({
       },
       {
         $set: {
-          island: {
-            villagerName,
-            islandName,
-            islandNativeFruit,
+          [`${updateField}`]: {
+            updateValue,
           },
+          // island: {
+          //   villagerName,
+          //   islandName,
+          //   islandNativeFruit,
+          // },
         },
       },
       {

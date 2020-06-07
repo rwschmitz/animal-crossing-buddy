@@ -29,9 +29,13 @@ export interface FindDocumentAndUpdateDocumentParams {
   collectionName: string;
   queryField: string;
   queryValue: string;
-  island: {
-    villagerName: string;
-    islandName: string;
-    islandNativeFruit: string;
-  };
+  updateField: string;
+  updateValue: string;
+
+  [key: string]: string;
+  // island: {
+  //   villagerName: string;
+  //   islandName: string;
+  //   islandNativeFruit: string;
+  // };
 }
