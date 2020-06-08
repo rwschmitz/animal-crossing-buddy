@@ -2,7 +2,7 @@ import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Auth } from 'aws-amplify';
 import { useAuth, useCurrentUser } from '../hooks';
-import { AuthForm, ImageUploader } from '../components';
+import { AuthForm, Form, ImageUploader } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
 import useSwr from 'swr';
@@ -136,7 +136,7 @@ const Home = (): ReactElement => {
 
                 <input type='submit' value='update island info!' />
               </form>
-
+              <Form />
               <button onClick={handleSignOut}>sign out</button>
             </>
           )}
