@@ -1,0 +1,9 @@
+{
+  "form.test.cat": "cat",
+  "form.test.dog": "dog",
+  "form.test.mouse": "mouse",
+  "form.test.horse": "horse",
+  "form.island.villager-name": "villager name",
+  "form.island.island-name": "island name",
+  "form.island.island-native-fruit": "island native fruit"
+}

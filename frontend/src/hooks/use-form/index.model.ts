@@ -2,7 +2,7 @@ import { FormEvent } from 'react';
 
 export interface UseFormReturnValues {
   handleChange: (value: string, state: string) => void;
-  handleSubmit: (event: FormEvent) => void;
+  handleSubmit: (event: FormEvent, onSubmit: Function) => void;
   changeValue: InitReduceValue;
 }
 

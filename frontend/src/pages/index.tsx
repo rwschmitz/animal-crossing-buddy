@@ -1,24 +1,37 @@
-import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Auth } from 'aws-amplify';
 import { useAuth, useCurrentUser } from '../hooks';
 import { AuthForm, Form, ImageUploader } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
+import labels from '../static-data/labels.json';
+
 import useSwr from 'swr';
 
 const formValues = [
   {
-    label: 'cat',
+    label: labels['form.test.cat'],
   },
   {
-    label: 'dog',
+    label: labels['form.test.dog'],
   },
   {
-    label: 'horse',
+    label: labels['form.test.horse'],
   },
   {
-    label: 'mouse',
+    label: labels['form.test.mouse'],
+  },
+];
+
+const formValues2 = [
+  {
+    label: labels['form.island.villager-name'],
+  },
+  {
+    label: labels['form.island.island-name'],
+  },
+  {
+    label: labels['form.island.island-native-fruit'],
   },
 ];
 
@@ -26,10 +39,6 @@ const Home = (): ReactElement => {
   const { code, emailAddress, handleCode, handleConfirmation, handleEmailAddress, handleSignOut } = useAuth();
   const currentUser = useCurrentUser();
   const { username, email } = currentUser;
-
-  const [villagerName, setVillagerName] = useState('');
-  const [islandName, setIslandName] = useState('');
-  const [islandNativeFruit, setIslandNativeFruit] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -45,21 +54,6 @@ const Home = (): ReactElement => {
     };
     handleRedirect();
   }, [username]);
-
-  const handleUpdateIslandInformation = async (event: FormEvent): Promise<void> => {
-    event.preventDefault();
-    await axios.post('/api/users/island', {
-      data: {
-        villagerName,
-        islandName,
-        islandNativeFruit,
-        uid: currentUser?.username,
-      },
-    });
-    setVillagerName('');
-    setIslandName('');
-    setIslandNativeFruit('');
-  };
 
   const fetcher = (url: string): Promise<void> =>
     axios
@@ -95,6 +89,23 @@ const Home = (): ReactElement => {
     }
   }, [currentUser]);
 
+  const handleUpdateIslandInformation = async (): Promise<void> => {
+    await axios.post('/api/users/island', {
+      // data: {
+      //   villagerName,
+      //   islandName,
+      //   islandNativeFruit,
+      //   uid: currentUser?.username,
+      // },
+      data: {
+        villagerName: 'snoot',
+        islandName: 'snoots crew',
+        islandNativeFruit: 'litter',
+        uid: username,
+      },
+    });
+  };
+
   return (
     <_Frame>
       {error && <div>error</div>}
@@ -112,46 +123,18 @@ const Home = (): ReactElement => {
                 <h4>island native fruit: {islandInformation.islandNativeFruit}</h4>
               </div>
               <ImageUploader />
-              <form
-                onSubmit={(event): Promise<void> => handleUpdateIslandInformation(event)}
-                style={{ border: '2px dashed white', marginBottom: '2rem', marginTop: '2rem', maxWidth: '500px' }}
-              >
-                <div style={{ width: '100%' }}>
-                  <label id='villager-name' htmlFor='villager-name'>
-                    villager name
-                  </label>
-                  <input
-                    name='villager-name'
-                    onChange={(event): void => setVillagerName(event.target.value)}
-                    value={villagerName}
-                  />
-                </div>
-
-                <div style={{ width: '100%' }}>
-                  <label id='island-name' htmlFor='island-name'>
-                    island name
-                  </label>
-                  <input
-                    name='island-name'
-                    onChange={(event): void => setIslandName(event.target.value)}
-                    value={islandName}
-                  />
-                </div>
-
-                <div style={{ width: '100%' }}>
-                  <label id='island-native-fruit' htmlFor='island-native-fruit'>
-                    island native fruit
-                  </label>
-                  <input
-                    name='island-native-fruit'
-                    onChange={(event): void => setIslandNativeFruit(event.target.value)}
-                    value={islandNativeFruit}
-                  />
-                </div>
-
-                <input type='submit' value='update island info!' />
-              </form>
-              <Form title='Form title' labels={formValues} />
+              <Form
+                title='Island info'
+                labels={formValues2}
+                submitBtnText='Update Island'
+                onSubmit={(): Promise<void> => handleUpdateIslandInformation()}
+              />
+              <Form
+                title='Form title'
+                labels={formValues}
+                submitBtnText='Submit'
+                onSubmit={(): void => console.log('submit')}
+              />
               <button onClick={handleSignOut}>sign out</button>
             </>
           )}
@@ -182,7 +165,6 @@ const Home = (): ReactElement => {
                 </_Form>
               </section>
               <button onClick={handleSignOut}>sign out (temp due to switch to aws)</button>
-              <button onClick={async (): Promise<void> => console.log(await Auth.currentUserInfo())}>log user</button>
               <AuthForm formTitle='Sign up' submitButtonText='Sign up!' type='sign-up' />
               <AuthForm formTitle='Sign in' submitButtonText='Sign in!' />
             </>

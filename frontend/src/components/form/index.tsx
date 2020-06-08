@@ -3,7 +3,8 @@ import { useForm } from '../../hooks';
 import { FormProps } from './index.model';
 import { _Container, _Form, _FormLabel, _FormTitle } from '../../ui';
 
-const Form = ({ title, labels }: FormProps): ReactElement => {
+// Use context to pass the values above the home page and back down to make the axios call
+const Form = ({ title, labels, submitBtnText, onSubmit }: FormProps): ReactElement => {
   const { handleChange, handleSubmit, changeValue } = useForm(labels);
 
   const changeValueProperties = Object.keys(changeValue).map((item) => {
@@ -11,12 +12,12 @@ const Form = ({ title, labels }: FormProps): ReactElement => {
   });
 
   return (
-    <_Form onSubmit={(event): void => handleSubmit(event)}>
+    <_Form onSubmit={(event): void => handleSubmit(event, onSubmit)}>
       <_FormTitle>{title}</_FormTitle>
       {labels.map((item, idx) => {
         const { label } = item;
         return (
-          <_Container key={`${item}-${idx}`}>
+          <_Container key={label}>
             <_FormLabel id={label} htmlFor={label}>
               {label}
             </_FormLabel>
@@ -29,7 +30,7 @@ const Form = ({ title, labels }: FormProps): ReactElement => {
         );
       })}
       <_Container>
-        <input type='submit' value='test submit...' />
+        <input type='submit' value={submitBtnText} />
       </_Container>
     </_Form>
   );

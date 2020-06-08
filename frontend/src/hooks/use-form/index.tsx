@@ -14,8 +14,9 @@ const useForm = (formValues: UseFormParams[]): UseFormReturnValues => {
 
   const [changeValue, setChangeValue] = useState(initState);
 
-  const handleSubmit = (event: FormEvent): void => {
+  const handleSubmit = (event: FormEvent, onSubmit: Function): void => {
     event.preventDefault();
+    onSubmit();
     setChangeValue(initState);
   };
 
