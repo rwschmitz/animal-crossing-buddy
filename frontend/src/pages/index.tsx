@@ -5,7 +5,6 @@ import { AuthForm, Form, ImageUploader } from '../components';
 import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
 import labels from '../static-data/labels.json';
-
 import useSwr from 'swr';
 
 const updateIslandLabels = [
