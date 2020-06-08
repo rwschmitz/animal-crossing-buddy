@@ -8,22 +8,7 @@ import labels from '../static-data/labels.json';
 
 import useSwr from 'swr';
 
-const formValues = [
-  {
-    label: labels['form.test.cat'],
-  },
-  {
-    label: labels['form.test.dog'],
-  },
-  {
-    label: labels['form.test.horse'],
-  },
-  {
-    label: labels['form.test.mouse'],
-  },
-];
-
-const formValues2 = [
+const updateIslandLabels = [
   {
     label: labels['form.island.villager-name'],
   },
@@ -91,12 +76,6 @@ const Home = (): ReactElement => {
 
   const handleUpdateIslandInformation = async (): Promise<void> => {
     await axios.post('/api/users/island', {
-      // data: {
-      //   villagerName,
-      //   islandName,
-      //   islandNativeFruit,
-      //   uid: currentUser?.username,
-      // },
       data: {
         villagerName: 'snoot',
         islandName: 'snoots crew',
@@ -125,16 +104,11 @@ const Home = (): ReactElement => {
               <ImageUploader />
               <Form
                 title='Island info'
-                labels={formValues2}
+                labels={updateIslandLabels}
                 submitBtnText='Update Island'
                 onSubmit={(): Promise<void> => handleUpdateIslandInformation()}
               />
-              <Form
-                title='Form title'
-                labels={formValues}
-                submitBtnText='Submit'
-                onSubmit={(): void => console.log('submit')}
-              />
+
               <button onClick={handleSignOut}>sign out</button>
             </>
           )}
