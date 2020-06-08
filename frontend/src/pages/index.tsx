@@ -7,6 +7,21 @@ import { IslandInformation } from '../models/page-models/index/index.model';
 import { _Container, _Form, _FormLabel, _Frame, _H1, _H2 } from '../ui';
 import useSwr from 'swr';
 
+const formValues = [
+  {
+    label: 'cat',
+  },
+  {
+    label: 'dog',
+  },
+  {
+    label: 'horse',
+  },
+  {
+    label: 'mouse',
+  },
+];
+
 const Home = (): ReactElement => {
   const { code, emailAddress, handleCode, handleConfirmation, handleEmailAddress, handleSignOut } = useAuth();
   const currentUser = useCurrentUser();
@@ -136,7 +151,7 @@ const Home = (): ReactElement => {
 
                 <input type='submit' value='update island info!' />
               </form>
-              <Form />
+              <Form title='Form title' labels={formValues} />
               <button onClick={handleSignOut}>sign out</button>
             </>
           )}

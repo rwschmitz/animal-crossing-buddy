@@ -1,48 +1,37 @@
 import React, { ReactElement } from 'react';
 import { useForm } from '../../hooks';
+import { FormProps } from './index.model';
+import { _Container, _Form, _FormLabel, _FormTitle } from '../../ui';
 
-const formValues = [
-  {
-    label: 'cat',
-  },
-  {
-    label: 'dog',
-  },
-  {
-    label: 'horse',
-  },
-  {
-    label: 'mouse',
-  },
-];
-
-const Form = (): ReactElement => {
-  const { handleChange, handleSubmit, changeValue } = useForm(formValues);
+const Form = ({ title, labels }: FormProps): ReactElement => {
+  const { handleChange, handleSubmit, changeValue } = useForm(labels);
 
   const changeValueProperties = Object.keys(changeValue).map((item) => {
     return item;
   });
 
   return (
-    <form onSubmit={(event): void => handleSubmit(event)}>
-      <legend>this is the title of the form</legend>
-      {formValues.map((item, idx) => {
+    <_Form onSubmit={(event): void => handleSubmit(event)}>
+      <_FormTitle>{title}</_FormTitle>
+      {labels.map((item, idx) => {
         const { label } = item;
         return (
-          <>
-            <label id={label} htmlFor={label}>
+          <_Container key={`${item}-${idx}`}>
+            <_FormLabel id={label} htmlFor={label}>
               {label}
-            </label>
+            </_FormLabel>
             <input
               name={label}
               onChange={(event): void => handleChange(event.target.value, changeValueProperties[idx])}
               value={changeValue[changeValueProperties[idx]]}
             />
-          </>
+          </_Container>
         );
       })}
-      <input type='submit' value='test submit...' />
-    </form>
+      <_Container>
+        <input type='submit' value='test submit...' />
+      </_Container>
+    </_Form>
   );
 };
 
